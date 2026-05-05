@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>簿本繳交記錄</title>
+
+  <style>
+    :root {
+      --bg: #243018;
+      --bg-2: #2f3d21;
+      --bg-3: #1a2112;
+      --cream: #f3edd4;
+      --cream-2: #d9cfac;
+      --line: rgba(243, 237, 212, 0.22);
+      --line-strong: rgba(243, 237, 212, 0.42);
+      --white: #ffffff;
+      --muted: rgba(243, 237, 212, 0.72);
+      --accent: #c5a95b;
+      --accent-2: #efe0a3;
+      --danger: #d96c5f;
+      --success: #9ebf75;
+      --card: rgba(255,255,255,0.055);
+      --card-2: rgba(255,255,255,0.085);
+      --shadow: 0 24px 70px rgba(0,0,0,0.34);
+      --radius: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--cream);
+      font-family:
+        "Noto Sans TC",
+        "Microsoft JhengHei",
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(197,169,91,0.16), transparent 24%),
+        radial-gradient(circle at 90% 10%, rgba(255,255,255,0.08), transparent 20%),
+        linear-gradient(135deg, var(--bg-3) 0%, var(--bg) 42%, var(--bg-2) 100%);
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      width: 440px;
+      height: 440px;
+      right: -180px;
+      top: 120px;
+      border: 1px solid rgba(243,237,212,0.11);
+      transform: rotate(23deg);
+    }
+
+    body::after {
+      width: 260px;
+      height: 260px;
+      left: -120px;
+      bottom: 80px;
+      border: 1px solid rgba(197,169,91,0.18);
+      transform: rotate(-18deg);
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 26px 0 54px;
+    }
+
+    .hero {
+      min-height: 260px;
+      border: 1px solid var(--line);
+      border-radius: 34px;
+      padding: 34px 30px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.09), rgba(255,255,255,0.035)),
+        linear-gradient(135deg, rgba(197,169,91,0.08), transparent 58%);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      right: 7%;
+      top: -50px;
+      width: 190px;
+      height: 320px;
+      border: 1px solid rgba(243,237,212,0.14);
+      transform: rotate(38deg);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: 24%;
+      bottom: 26px;
+      width: 42px;
+      height: 42px;
+      border: 2px solid rgba(239,224,163,0.62);
+      transform: rotate(22deg);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .kicker {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--accent-2);
+      font-size: 13px;
+      letter-spacing: 0.28em;
+      font-weight: 800;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 34px;
+      height: 2px;
+      background: var(--accent-2);
+      display: inline-block;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--white);
+      font-size: clamp(42px, 10vw, 96px);
+      line-height: 0.95;
+      letter-spacing: 0.12em;
+      font-weight: 950;
+      text-shadow: 0 12px 36px rgba(0,0,0,0.22);
+    }
+
+    .hero-sub {
+      margin: 18px 0 0;
+      max-width: 660px;
+      color: var(--muted);
+      line-height: 1.9;
+      font-size: 15px;
+    }
+
+    .hero-mark {
+      width: 126px;
+      height: 126px;
+      border: 1px solid var(--line-strong);
+      transform: rotate(45deg);
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.035);
+    }
+
+    .hero-mark span {
+      transform: rotate(-45deg);
+      font-size: 15px;
+      letter-spacing: 0.18em;
+      font-weight: 900;
+      color: var(--accent-2);
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .tab {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px 14px;
+      color: var(--cream);
+      background: rgba(255,255,255,0.045);
+      font-weight: 900;
+      font-size: 17px;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+    }
+
+    .tab.active {
+      color: #17200e;
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--accent-2), var(--accent));
+      box-shadow: 0 14px 28px rgba(197,169,91,0.18);
+    }
+
+    .notice {
+      display: none;
+      border-radius: 18px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      background: rgba(158,191,117,0.16);
+      border: 1px solid rgba(158,191,117,0.38);
+      color: var(--cream);
+      font-weight: 800;
+      line-height: 1.6;
+    }
+
+    .notice.error {
+      background: rgba(217,108,95,0.16);
+      border-color: rgba(217,108,95,0.42);
+      color: #ffd6d0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 20px 54px rgba(0,0,0,0.18);
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      width: 110px;
+      height: 110px;
+      right: -60px;
+      top: -60px;
+      border: 1px solid rgba(243,237,212,0.12);
+      transform: rotate(27deg);
+    }
+
+    .card h2 {
+      position: relative;
+      margin: 0 0 18px;
+      color: var(--white);
+      font-size: 25px;
+      letter-spacing: 0.08em;
+    }
+
+    .card h2::after {
+      content: "";
+      display: block;
+      width: 42px;
+      height: 3px;
+      background: var(--accent);
+      margin-top: 10px;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .meta-item {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 13px;
+      background: rgba(0,0,0,0.13);
+    }
+
+    .meta-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 5px;
+      letter-spacing: 0.12em;
+    }
+
+    .meta-value {
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--accent-2);
+      word-break: break-word;
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 7px;
+      font-weight: 900;
+      color: var(--cream);
+      letter-spacing: 0.06em;
+    }
+
+    input,
+    select {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.075);
+      color: var(--cream);
+      border-radius: 16px;
+      padding: 14px 14px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input::placeholder {
+      color: rgba(243,237,212,0.42);
+    }
+
+    select option {
+      background: #243018;
+      color: var(--cream);
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 4px rgba(197,169,91,0.12);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .section-title {
+      margin: 22px 0 12px;
+      padding-left: 12px;
+      border-left: 4px solid var(--accent);
+      color: var(--accent-2);
+      font-weight: 950;
+      letter-spacing: 0.08em;
+    }
+
+    .members {
+      display: grid;
+      gap: 10px;
+    }
+
+    .member {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 13px;
+      background: rgba(255,255,255,0.052);
+    }
+
+    .member input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      accent-color: var(--accent);
+    }
+
+    .member-main {
+      color: var(--white);
+      font-weight: 950;
+      font-size: 17px;
+    }
+
+    .member-sub {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+
+    .delete-small {
+      border: 1px solid rgba(217,108,95,0.45);
+      color: #ffd6d0;
+      background: rgba(217,108,95,0.13);
+      border-radius: 14px;
+      padding: 9px 11px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .btn {
+      width: 100%;
+      border: 0;
+      border-radius: 18px;
+      padding: 15px 18px;
+      margin-top: 14px;
+      color: #1a2112;
+      background: linear-gradient(135deg, var(--accent-2), var(--accent));
+      font-size: 17px;
+      font-weight: 950;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      box-shadow: 0 14px 28px rgba(197,169,91,0.18);
+    }
+
+    .btn.secondary {
+      color: var(--cream);
+      background: linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.075));
+      border: 1px solid var(--line-strong);
+      box-shadow: none;
+    }
+
+    .btn.ghost {
+      color: var(--cream);
+      background: rgba(255,255,255,0.045);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .empty {
+      border: 1px dashed var(--line);
+      color: var(--muted);
+      padding: 18px;
+      border-radius: 18px;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .table-wrap {
+      margin-top: 16px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(0,0,0,0.14);
+    }
+
+    table {
+      width: 100%;
+      min-width: 820px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 13px 12px;
+      border-bottom: 1px solid rgba(243,237,212,0.14);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      background: rgba(0,0,0,0.24);
+      color: var(--accent-2);
+      font-weight: 950;
+      letter-spacing: 0.06em;
+    }
+
+    td {
+      color: var(--cream);
+    }
+
+    .loading-cover {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: grid;
+      place-items: center;
+      background: rgba(26,33,18,0.84);
+      backdrop-filter: blur(8px);
+    }
+
+    .loading-box {
+      width: min(340px, calc(100% - 40px));
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 28px;
+      background: rgba(255,255,255,0.07);
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .loader {
+      width: 44px;
+      height: 44px;
+      border: 3px solid rgba(243,237,212,0.22);
+      border-top-color: var(--accent-2);
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      animation: spin 0.9s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 880px) {
+      .page {
+        width: min(100% - 18px, 1180px);
+        padding-top: 12px;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 26px 20px;
+        border-radius: 26px;
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-mark {
+        display: none;
+      }
+
+      .hero-sub {
+        font-size: 14px;
+      }
+
+      .tabs,
+      .grid,
+      .row,
+      .meta {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 19px;
+      }
+
+      .member {
+        grid-template-columns: auto 1fr;
+      }
+
+      .delete-small {
+        grid-column: 2;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loadingCover" class="loading-cover">
+    <div class="loading-box">
+      <div class="loader"></div>
+      <div>資料讀取中</div>
+    </div>
+  </div>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <div class="kicker">FULLTIMER EXERCISEBOOK</div>
+          <h1>簿本<br>繳交</h1>
+          <p class="hero-sub">
+            每週一至主日為一週。系統會依目前日期自動載入年度、季別、專項與檢核者；成員停用後前端不再顯示，歷史紀錄仍保留於試算表。
+          </p>
+        </div>
+
+        <div class="hero-mark">
+          <span>記錄</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="tabs">
+      <button id="tabReport" class="tab active" onclick="switchTab('report')">繳交回報</button>
+      <button id="tabSearch" class="tab" onclick="switchTab('search')">調閱紀錄</button>
+    </div>
+
+    <div id="notice" class="notice"></div>
+
+    <section id="reportPage">
+      <div class="grid">
+        <div class="card">
+          <h2>本週回報</h2>
+
+          <div class="meta">
+            <div class="meta-item">
+              <div class="meta-label">年度</div>
+              <div id="currentYear" class="meta-value">讀取中</div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-label">季別</div>
+              <div id="currentSeason" class="meta-value">讀取中</div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-label">週次</div>
+              <div id="currentWeek" class="meta-value">讀取中</div>
+            </div>
+          </div>
+
+          <label for="datePicker">選擇日期</label>
+          <input id="datePicker" type="date" onchange="changeDate()">
+
+          <div class="section-title">勾選本週有繳交者</div>
+          <div id="membersList" class="members">
+            <div class="empty">資料載入中</div>
+          </div>
+
+          <button class="btn" onclick="submitRecords()">送出繳交紀錄</button>
+        </div>
+
+        <div class="card">
+          <h2>成員管理</h2>
+
+          <label for="newName">姓名</label>
+          <input id="newName" type="text" placeholder="請輸入姓名">
+
+          <div class="row">
+            <div>
+              <label for="newGender">性別</label>
+              <select id="newGender">
+                <option value="">請選擇</option>
+                <option value="弟兄">弟兄</option>
+                <option value="姊妹">姊妹</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="newSpecialty">專項</label>
+              <select id="newSpecialty">
+                <option value="">讀取中</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="btn secondary" onclick="addMember()">新增成員</button>
+
+          <div class="section-title">本季專項與檢核者</div>
+          <div id="settingsList" class="members">
+            <div class="empty">資料載入中</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="searchPage" class="hidden">
+      <div class="card">
+        <h2>調閱紀錄</h2>
+
+        <div class="row">
+          <div>
+            <label for="filterYear">年度</label>
+            <input id="filterYear" type="number" placeholder="例如 2026">
+          </div>
+
+          <div>
+            <label for="filterDate">日期週次</label>
+            <input id="filterDate" type="text" placeholder="例如 2026/05/04-2026/05/10">
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="filterName">姓名</label>
+            <input id="filterName" type="text" placeholder="可輸入部分姓名">
+          </div>
+
+          <div>
+            <label for="filterGender">性別</label>
+            <select id="filterGender">
+              <option value="">全部</option>
+              <option value="弟兄">弟兄</option>
+              <option value="姊妹">姊妹</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="filterSpecialty">專項</label>
+            <input id="filterSpecialty" type="text" placeholder="兒青 / 兒童 / 青職 / 大學 / 中學">
+          </div>
+
+          <div>
+            <label for="filterChecker">檢核者</label>
+            <input id="filterChecker" type="text" placeholder="可輸入部分姓名">
+          </div>
+        </div>
+
+        <button class="btn" onclick="searchRecords()">查詢</button>
+        <button class="btn ghost" onclick="clearFilters()">清空條件</button>
+
+        <div id="resultSummary" class="section-title">尚未查詢</div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>年度</th>
+                <th>季別</th>
+                <th>日期</th>
+                <th>姓名</th>
+                <th>性別</th>
+                <th>專項</th>
+                <th>檢核者</th>
+                <th>建立時間</th>
+              </tr>
+            </thead>
+            <tbody id="resultBody">
+              <tr>
+                <td colspan="8" class="empty">請輸入條件後查詢</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw-TQT8iaQnfvRUmrg3LiEHdEeliwY4kpkENF2Nw2iZl9C9wQSSpW2JM73ige87DmFj/exec';
+
+    let state = {
+      year: '',
+      season: '',
+      week: null,
+      settings: [],
+      members: []
+    };
+
+    document.addEventListener('DOMContentLoaded', init);
+
+    function api(action, params = {}) {
+      return new Promise((resolve, reject) => {
+        const callbackName = 'jsonpCallback_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+
+        const query = new URLSearchParams();
+        query.set('action', action);
+        query.set('callback', callbackName);
+
+        Object.keys(params).forEach(key => {
+          query.set(key, params[key]);
+        });
+
+        const script = document.createElement('script');
+        script.src = GAS_WEB_APP_URL + '?' + query.toString();
+
+        const timer = setTimeout(() => {
+          cleanup();
+          reject(new Error('連線逾時，請確認 GAS Web App 是否已重新部署'));
+        }, 20000);
+
+        window[callbackName] = function(res) {
+          cleanup();
+
+          if (!res || res.success === false) {
+            reject(new Error(res && res.message ? res.message : '操作失敗'));
+            return;
+          }
+
+          resolve(res);
+        };
+
+        script.onerror = function() {
+          cleanup();
+          reject(new Error('無法連線 GAS Web App'));
+        };
+
+        function cleanup() {
+          clearTimeout(timer);
+          delete window[callbackName];
+          if (script.parentNode) {
+            script.parentNode.removeChild(script);
+          }
+        }
+
+        document.body.appendChild(script);
+      });
+    }
+
+    async function init() {
+      showLoading(true);
+
+      try {
+        const res = await api('getInitialData');
+
+        state.year = res.year;
+        state.season = res.season;
+        state.week = res.week;
+        state.settings = res.settings || [];
+        state.members = res.members || [];
+
+        document.getElementById('datePicker').value = res.todayForInput || '';
+
+        renderMeta();
+        renderSettings();
+        renderSpecialtyOptions();
+        renderMembers();
+      } catch (err) {
+        showNotice(err.message || '載入失敗', true);
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    function switchTab(tab) {
+      const isReport = tab === 'report';
+
+      document.getElementById('reportPage').classList.toggle('hidden', !isReport);
+      document.getElementById('searchPage').classList.toggle('hidden', isReport);
+
+      document.getElementById('tabReport').classList.toggle('active', isReport);
+      document.getElementById('tabSearch').classList.toggle('active', !isReport);
+    }
+
+    async function changeDate() {
+      const value = document.getElementById('datePicker').value;
+      if (!value) return;
+
+      showLoading(true);
+
+      try {
+        const res = await api('getWeekByDate', {
+          date: value
+        });
+
+        state.year = res.year;
+        state.season = res.season;
+        state.week = res.week;
+        state.settings = res.settings || [];
+
+        renderMeta();
+        renderSettings();
+        renderSpecialtyOptions();
+        renderMembers();
+      } catch (err) {
+        showNotice(err.message || '日期切換失敗', true);
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    function renderMeta() {
+      document.getElementById('currentYear').textContent = state.year || '';
+      document.getElementById('currentSeason').textContent = state.season || '';
+      document.getElementById('currentWeek').textContent = state.week ? state.week.shortLabel : '';
+    }
+
+    function renderSettings() {
+      const box = document.getElementById('settingsList');
+
+      if (!state.settings.length) {
+        box.innerHTML = '<div class="empty">目前年度季別尚未設定專項與檢核者</div>';
+        return;
+      }
+
+      box.innerHTML = state.settings.map(item => `
+        <div class="member">
+          <div></div>
+          <div>
+            <div class="member-main">${escapeHtml(item.specialty)}</div>
+            <div class="member-sub">檢核者：${escapeHtml(item.checker || '未填')}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderSpecialtyOptions() {
+      const select = document.getElementById('newSpecialty');
+      const specialties = [...new Set(state.settings.map(s => s.specialty).filter(Boolean))];
+
+      if (!specialties.length) {
+        select.innerHTML = '<option value="">尚未設定</option>';
+        return;
+      }
+
+      select.innerHTML =
+        '<option value="">請選擇</option>' +
+        specialties.map(s => `<option value="${escapeAttr(s)}">${escapeHtml(s)}</option>`).join('');
+    }
+
+    function renderMembers() {
+      const box = document.getElementById('membersList');
+      const validSpecialties = new Set(state.settings.map(s => s.specialty));
+      const visibleMembers = state.members.filter(m => validSpecialties.has(m.specialty));
+
+      if (!visibleMembers.length) {
+        box.innerHTML = '<div class="empty">目前沒有可回報的啟用成員</div>';
+        return;
+      }
+
+      box.innerHTML = visibleMembers.map(m => {
+        const checker = getCheckerBySpecialty(m.specialty);
+
+        return `
+          <div class="member">
+            <input
+              type="checkbox"
+              class="member-check"
+              data-id="${escapeAttr(m.id)}"
+              data-name="${escapeAttr(m.name)}"
+              data-gender="${escapeAttr(m.gender)}"
+              data-specialty="${escapeAttr(m.specialty)}"
+              data-checker="${escapeAttr(checker)}"
+            >
+            <div>
+              <div class="member-main">${escapeHtml(m.name)}</div>
+              <div class="member-sub">${escapeHtml(m.gender)}｜${escapeHtml(m.specialty)}｜檢核者：${escapeHtml(checker || '未填')}</div>
+            </div>
+            <button class="delete-small" onclick="disableMember('${escapeAttr(m.id)}')">刪除</button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function getCheckerBySpecialty(specialty) {
+      const found = state.settings.find(s => s.specialty === specialty);
+      return found ? found.checker : '';
+    }
+
+    async function addMember() {
+      const name = document.getElementById('newName').value.trim();
+      const gender = document.getElementById('newGender').value;
+      const specialty = document.getElementById('newSpecialty').value;
+
+      if (!name) {
+        showNotice('請輸入姓名', true);
+        return;
+      }
+
+      if (!gender) {
+        showNotice('請選擇性別', true);
+        return;
+      }
+
+      if (!specialty) {
+        showNotice('請選擇專項', true);
+        return;
+      }
+
+      showLoading(true);
+
+      try {
+        const res = await api('addMember', {
+          name,
+          gender,
+          specialty
+        });
+
+        showNotice(res.message || '成員已新增');
+
+        document.getElementById('newName').value = '';
+        document.getElementById('newGender').value = '';
+        document.getElementById('newSpecialty').value = '';
+
+        await init();
+      } catch (err) {
+        showNotice(err.message || '新增失敗', true);
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    async function disableMember(memberId) {
+      if (!confirm('確定要刪除此成員？前端不再顯示，但歷史紀錄會保留。')) return;
+
+      showLoading(true);
+
+      try {
+        const res = await api('disableMember', {
+          memberId
+        });
+
+        showNotice(res.message || '成員已停用');
+        await init();
+      } catch (err) {
+        showNotice(err.message || '刪除失敗', true);
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    async function submitRecords() {
+      const checked = Array.from(document.querySelectorAll('.member-check:checked'));
+
+      if (!checked.length) {
+        showNotice('請至少勾選一位繳交成員', true);
+        return;
+      }
+
+      const payload = {
+        year: state.year,
+        season: state.season,
+        dateLabel: state.week ? state.week.label : '',
+        weekStart: state.week ? state.week.start : '',
+        weekEnd: state.week ? state.week.end : '',
+        members: checked.map(el => ({
+          name: el.dataset.name,
+          gender: el.dataset.gender,
+          specialty: el.dataset.specialty,
+          checker: el.dataset.checker
+        }))
+      };
+
+      showLoading(true);
+
+      try {
+        const res = await api('submitRecords', {
+          payload: JSON.stringify(payload)
+        });
+
+        showNotice(res.message || '回報完成');
+
+        document.querySelectorAll('.member-check').forEach(el => {
+          el.checked = false;
+        });
+      } catch (err) {
+        showNotice(err.message || '送出失敗', true);
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    async function searchRecords() {
+      const filters = {
+        year: document.getElementById('filterYear').value.trim(),
+        date: document.getElementById('filterDate').value.trim(),
+        name: document.getElementById('filterName').value.trim(),
+        gender: document.getElementById('filterGender').value,
+        specialty: document.getElementById('filterSpecialty').value.trim(),
+        checker: document.getElementById('filterChecker').value.trim()
+      };
+
+      showLoading(true);
+
+      try {
+        const res = await api('searchRecords', {
+          filters: JSON.stringify(filters)
+        });
+
+        renderResults(res);
+      } catch (err) {
+        showNotice(err.message || '查詢失敗', true);
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    function renderResults(res) {
+      const body = document.getElementById('resultBody');
+      document.getElementById('resultSummary').textContent = '符合條件共 ' + res.count + ' 筆';
+
+      if (!res.records || !res.records.length) {
+        body.innerHTML = '<tr><td colspan="8" class="empty">查無資料</td></tr>';
+        return;
+      }
+
+      body.innerHTML = res.records.map(r => `
+        <tr>
+          <td>${escapeHtml(r.year)}</td>
+          <td>${escapeHtml(r.season)}</td>
+          <td>${escapeHtml(r.date)}</td>
+          <td>${escapeHtml(r.name)}</td>
+          <td>${escapeHtml(r.gender)}</td>
+          <td>${escapeHtml(r.specialty)}</td>
+          <td>${escapeHtml(r.checker)}</td>
+          <td>${escapeHtml(r.createdAt)}</td>
+        </tr>
+      `).join('');
+    }
+
+    function clearFilters() {
+      document.getElementById('filterYear').value = '';
+      document.getElementById('filterDate').value = '';
+      document.getElementById('filterName').value = '';
+      document.getElementById('filterGender').value = '';
+      document.getElementById('filterSpecialty').value = '';
+      document.getElementById('filterChecker').value = '';
+
+      document.getElementById('resultSummary').textContent = '尚未查詢';
+      document.getElementById('resultBody').innerHTML =
+        '<tr><td colspan="8" class="empty">請輸入條件後查詢</td></tr>';
+    }
+
+    function showNotice(message, isError) {
+      const box = document.getElementById('notice');
+
+      box.textContent = message;
+      box.classList.toggle('error', !!isError);
+      box.style.display = 'block';
+
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+
+      clearTimeout(window.__noticeTimer);
+      window.__noticeTimer = setTimeout(() => {
+        box.style.display = 'none';
+      }, 3800);
+    }
+
+    function showLoading(show) {
+      document.getElementById('loadingCover').style.display = show ? 'grid' : 'none';
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function escapeAttr(value) {
+      return escapeHtml(value);
+    }
+  </script>
+</body>
+</html>
