@@ -90,14 +90,13 @@
       transform: rotate(38deg);
     }
     .top-actions {
-      position: absolute;
-      top: 18px;
-      right: 18px;
+      position: static;
       z-index: 4;
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      justify-content: flex-end;
+      justify-content: flex-start;
+      margin-top: 18px;
     }
     .top-btn {
       border: 1px solid var(--line-strong);
@@ -698,11 +697,10 @@
         display: none;
       }
       .top-actions {
-        position: static;
-        margin-bottom: 14px;
+        margin-top: 18px;
       }
       .top-btn {
-        width: 100%;
+        width: auto;
       }
       h1 {
         font-size: 32px;
@@ -833,11 +831,10 @@
         <div>
           <div class="kicker">FULLTIMER EXERCISEBOOK</div>
           <h1>青年同工操練本繳交</h1>
-
-      <div class="top-actions">
-        <button class="top-btn" onclick="openSettingManager()">設定</button>
-        <button class="top-btn" onclick="openMemberManager()">成員清單</button>
-      </div>          
+          <div class="top-actions">
+            <button class="top-btn" onclick="openSettingManager()">設定</button>
+            <button class="top-btn" onclick="openMemberManager()">成員清單</button>
+          </div>
         </div>
         <div class="hero-mark">
           <span>記錄</span>
