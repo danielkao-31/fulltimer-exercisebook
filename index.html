@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>青年同工操練本繳交</title>
-
   <style>
     :root {
       --bg: #243018;
@@ -23,11 +22,9 @@
       --shadow: 0 24px 70px rgba(0,0,0,0.34);
       --radius: 24px;
     }
-
     * {
       box-sizing: border-box;
     }
-
     body {
       margin: 0;
       min-height: 100vh;
@@ -39,7 +36,6 @@
         linear-gradient(135deg, var(--bg-3) 0%, var(--bg) 42%, var(--bg-2) 100%);
       overflow-x: hidden;
     }
-
     body::before,
     body::after {
       content: "";
@@ -47,7 +43,6 @@
       pointer-events: none;
       z-index: 0;
     }
-
     body::before {
       width: 440px;
       height: 440px;
@@ -56,7 +51,6 @@
       border: 1px solid rgba(243,237,212,0.11);
       transform: rotate(23deg);
     }
-
     body::after {
       width: 260px;
       height: 260px;
@@ -65,7 +59,6 @@
       border: 1px solid rgba(197,169,91,0.18);
       transform: rotate(-18deg);
     }
-
     .page {
       position: relative;
       z-index: 1;
@@ -73,7 +66,6 @@
       margin: 0 auto;
       padding: 26px 0 54px;
     }
-
     .hero {
       min-height: 210px;
       border: 1px solid var(--line);
@@ -87,7 +79,6 @@
       overflow: hidden;
       margin-bottom: 20px;
     }
-
     .hero::before {
       content: "";
       position: absolute;
@@ -98,7 +89,27 @@
       border: 1px solid rgba(243,237,212,0.14);
       transform: rotate(38deg);
     }
-
+    .top-actions {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 4;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .top-btn {
+      border: 1px solid var(--line-strong);
+      color: var(--cream);
+      background: rgba(255,255,255,0.075);
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-weight: 900;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      backdrop-filter: blur(10px);
+    }
     .hero-inner {
       position: relative;
       z-index: 2;
@@ -108,34 +119,6 @@
       align-items: center;
       padding-top: 22px;
     }
-
-    .top-actions {
-      margin-top: 28px;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(180px, 280px));
-      gap: 14px;
-      justify-content: start;
-    }
-
-    .top-btn {
-      border: 1px solid var(--line-strong);
-      color: var(--cream);
-      background: rgba(255,255,255,0.075);
-      border-radius: 999px;
-      padding: 14px 22px;
-      font-size: 17px;
-      font-weight: 950;
-      cursor: pointer;
-      letter-spacing: 0.12em;
-      backdrop-filter: blur(10px);
-      text-align: center;
-    }
-
-    .top-btn:hover {
-      border-color: var(--accent-2);
-      background: rgba(255,255,255,0.11);
-    }
-
     .kicker {
       display: inline-flex;
       gap: 8px;
@@ -146,7 +129,6 @@
       font-weight: 800;
       margin-bottom: 18px;
     }
-
     .kicker::before {
       content: "";
       width: 34px;
@@ -154,7 +136,6 @@
       background: var(--accent-2);
       display: inline-block;
     }
-
     h1 {
       margin: 0;
       color: var(--white);
@@ -164,7 +145,6 @@
       font-weight: 950;
       text-shadow: 0 12px 36px rgba(0,0,0,0.22);
     }
-
     .hero-mark {
       width: 112px;
       height: 112px;
@@ -174,7 +154,6 @@
       place-items: center;
       background: rgba(255,255,255,0.035);
     }
-
     .hero-mark span {
       transform: rotate(-45deg);
       font-size: 15px;
@@ -182,14 +161,12 @@
       font-weight: 900;
       color: var(--accent-2);
     }
-
     .tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
       margin: 18px 0;
     }
-
     .tab {
       border: 1px solid var(--line);
       border-radius: 18px;
@@ -201,14 +178,12 @@
       cursor: pointer;
       letter-spacing: 0.08em;
     }
-
     .tab.active {
       color: #17200e;
       border-color: transparent;
       background: linear-gradient(135deg, var(--accent-2), var(--accent));
       box-shadow: 0 14px 28px rgba(197,169,91,0.18);
     }
-
     .notice {
       display: none;
       border-radius: 18px;
@@ -220,13 +195,11 @@
       font-weight: 800;
       line-height: 1.6;
     }
-
     .notice.error {
       background: rgba(217,108,95,0.16);
       border-color: rgba(217,108,95,0.42);
       color: #ffd6d0;
     }
-
     .card {
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -237,14 +210,12 @@
       position: relative;
       overflow: hidden;
     }
-
     .card h2 {
       margin: 0 0 18px;
       color: var(--white);
       font-size: 25px;
       letter-spacing: 0.08em;
     }
-
     .card h2::after {
       content: "";
       display: block;
@@ -253,21 +224,18 @@
       background: var(--accent);
       margin-top: 10px;
     }
-
     .meta {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
       margin-bottom: 18px;
     }
-
     .meta-item {
       border: 1px solid var(--line);
       border-radius: 18px;
       padding: 13px;
       background: rgba(0,0,0,0.13);
     }
-
     .meta-label {
       font-size: 12px;
       color: var(--muted);
@@ -275,23 +243,19 @@
       letter-spacing: 0.12em;
       font-weight: 900;
     }
-
     .meta-value {
       font-size: 16px;
       font-weight: 900;
       color: var(--accent-2);
       word-break: break-word;
     }
-
     .week-meta {
       padding: 0;
       overflow: hidden;
     }
-
     .week-meta-inner {
       padding: 13px;
     }
-
     .week-meta select {
       border: 0;
       padding: 0;
@@ -304,7 +268,6 @@
       border-radius: 0;
       cursor: pointer;
     }
-
     label {
       display: block;
       margin: 14px 0 7px;
@@ -312,7 +275,6 @@
       color: var(--cream);
       letter-spacing: 0.06em;
     }
-
     input,
     select {
       width: 100%;
@@ -324,28 +286,23 @@
       font-size: 16px;
       outline: none;
     }
-
     input::placeholder {
       color: rgba(243,237,212,0.42);
     }
-
     select option {
       background: #243018;
       color: var(--cream);
     }
-
     input:focus,
     select:focus {
       border-color: var(--accent-2);
       box-shadow: 0 0 0 4px rgba(197,169,91,0.12);
     }
-
     .row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
     }
-
     .section-title {
       margin: 22px 0 12px;
       padding-left: 12px;
@@ -354,12 +311,10 @@
       font-weight: 950;
       letter-spacing: 0.08em;
     }
-
     .members {
       display: grid;
       gap: 10px;
     }
-
     .member {
       display: grid;
       grid-template-columns: auto 1fr auto;
@@ -371,13 +326,11 @@
       background: rgba(255,255,255,0.052);
       position: relative;
     }
-
     .member.submitted {
       border-color: rgba(199, 240, 162, 0.72);
       background:
         linear-gradient(135deg, rgba(199,240,162,0.18), rgba(255,255,255,0.04));
     }
-
     .member.submitted::before {
       content: "";
       position: absolute;
@@ -388,26 +341,22 @@
       border-radius: 999px;
       background: var(--success);
     }
-
     .member input[type="checkbox"] {
       width: 22px;
       height: 22px;
       accent-color: var(--accent);
     }
-
     .member-main {
       color: var(--white);
       font-weight: 950;
       font-size: 17px;
     }
-
     .member-sub {
       color: var(--muted);
       font-size: 13px;
       margin-top: 4px;
       line-height: 1.5;
     }
-
     .submitted-badge {
       display: inline-flex;
       align-items: center;
@@ -422,7 +371,6 @@
       letter-spacing: 0.06em;
       white-space: nowrap;
     }
-
     .btn {
       width: 100%;
       border: 0;
@@ -437,14 +385,12 @@
       letter-spacing: 0.08em;
       box-shadow: 0 14px 28px rgba(197,169,91,0.18);
     }
-
     .btn.ghost {
       color: var(--cream);
       background: rgba(255,255,255,0.045);
       border: 1px solid var(--line);
       box-shadow: none;
     }
-
     .small-btn {
       border: 1px solid var(--line);
       border-radius: 14px;
@@ -454,17 +400,14 @@
       font-weight: 900;
       cursor: pointer;
     }
-
     .small-btn.danger {
       color: #ffd6d0;
       border-color: rgba(217,108,95,0.45);
       background: rgba(217,108,95,0.13);
     }
-
     .hidden {
       display: none !important;
     }
-
     .empty {
       border: 1px dashed var(--line);
       color: var(--muted);
@@ -473,21 +416,18 @@
       text-align: center;
       line-height: 1.7;
     }
-
     .overall-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 10px;
       margin: 18px 0;
     }
-
     .overall-card {
       border: 1px solid var(--line);
       border-radius: 18px;
       padding: 14px;
       background: rgba(0,0,0,0.14);
     }
-
     .overall-card .label {
       font-size: 12px;
       color: var(--muted);
@@ -495,13 +435,11 @@
       margin-bottom: 6px;
       font-weight: 900;
     }
-
     .overall-card .value {
       font-size: 24px;
       color: var(--accent-2);
       font-weight: 950;
     }
-
     .column-toggle-panel {
       margin-top: 16px;
       border: 1px solid var(--line);
@@ -509,20 +447,17 @@
       padding: 16px;
       background: rgba(0,0,0,0.14);
     }
-
     .column-toggle-title {
       color: var(--accent-2);
       font-weight: 950;
       letter-spacing: 0.08em;
       margin-bottom: 12px;
     }
-
     .column-toggle-grid {
       display: grid;
       grid-template-columns: repeat(5, minmax(120px, 1fr));
       gap: 10px;
     }
-
     .column-toggle-item {
       margin: 0;
       display: flex;
@@ -538,12 +473,10 @@
       letter-spacing: 0.04em;
       user-select: none;
     }
-
     .column-toggle-item.fixed {
       opacity: 0.62;
       cursor: not-allowed;
     }
-
     .column-toggle-item input {
       width: 18px;
       height: 18px;
@@ -552,11 +485,9 @@
       accent-color: var(--accent);
       flex: 0 0 auto;
     }
-
     .col-hidden {
       display: none !important;
     }
-
     .table-wrap {
       margin-top: 16px;
       overflow-x: auto;
@@ -564,13 +495,11 @@
       border-radius: 18px;
       background: rgba(0,0,0,0.14);
     }
-
     table {
       width: auto;
       min-width: 0;
       border-collapse: collapse;
     }
-
     th,
     td {
       padding: 13px 12px;
@@ -579,40 +508,33 @@
       white-space: nowrap;
       vertical-align: middle;
     }
-
     th {
       background: rgba(0,0,0,0.24);
       color: var(--accent-2);
       font-weight: 950;
     }
-
     td {
       color: var(--cream);
     }
-
     .missing-weeks {
       white-space: normal;
       line-height: 1.6;
-      max-width: 260px;
+      min-width: 260px;
       color: #ffd6d0;
       text-align: center;
     }
-
     .rate-good {
       color: #d9f5bd;
       font-weight: 950;
     }
-
     .rate-mid {
       color: #ffe7a3;
       font-weight: 950;
     }
-
     .rate-bad {
       color: #ffd6d0;
       font-weight: 950;
     }
-
     .loading-cover {
       position: fixed;
       inset: 0;
@@ -622,7 +544,6 @@
       background: rgba(26,33,18,0.70);
       backdrop-filter: blur(5px);
     }
-
     .loading-box {
       width: min(300px, calc(100% - 40px));
       border: 1px solid var(--line);
@@ -632,7 +553,6 @@
       text-align: center;
       box-shadow: var(--shadow);
     }
-
     .loader {
       width: 38px;
       height: 38px;
@@ -642,13 +562,11 @@
       margin: 0 auto 14px;
       animation: spin 0.9s linear infinite;
     }
-
     @keyframes spin {
       to {
         transform: rotate(360deg);
       }
     }
-
     .modal-cover {
       position: fixed;
       inset: 0;
@@ -660,7 +578,6 @@
       background: rgba(8, 12, 6, 0.72);
       backdrop-filter: blur(9px);
     }
-
     .modal {
       width: min(1120px, 100%);
       max-height: min(86vh, 820px);
@@ -673,7 +590,6 @@
       box-shadow: var(--shadow);
       padding: 22px;
     }
-
     .modal-head {
       display: flex;
       justify-content: space-between;
@@ -681,14 +597,12 @@
       align-items: center;
       margin-bottom: 16px;
     }
-
     .modal-title {
       margin: 0;
       color: var(--white);
       font-size: 24px;
       letter-spacing: 0.08em;
     }
-
     .close-btn {
       border: 1px solid var(--line);
       border-radius: 999px;
@@ -699,14 +613,12 @@
       cursor: pointer;
       padding: 8px 13px;
     }
-
     .batch-toolbar {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
       margin: 10px 0 14px;
     }
-
     .add-member-row {
       display: grid;
       grid-template-columns: 1.1fr .7fr .8fr .8fr 1fr auto;
@@ -718,7 +630,6 @@
       border-radius: 18px;
       background: rgba(0,0,0,0.12);
     }
-
     .manager-filter {
       display: grid;
       grid-template-columns: 180px 1fr;
@@ -726,13 +637,11 @@
       align-items: end;
       margin-bottom: 12px;
     }
-
     .member-edit-list,
     .setting-list {
       display: grid;
       gap: 10px;
     }
-
     .member-edit-row {
       display: grid;
       grid-template-columns: 1.1fr .8fr .8fr 1fr .75fr auto;
@@ -743,7 +652,6 @@
       padding: 12px;
       background: rgba(255,255,255,0.052);
     }
-
     .setting-row {
       display: grid;
       grid-template-columns: 1fr 1fr 1.2fr 1.2fr 1fr auto;
@@ -754,18 +662,15 @@
       padding: 12px;
       background: rgba(255,255,255,0.052);
     }
-
     .member-name {
       font-weight: 950;
       color: var(--white);
     }
-
     .member-gender {
       color: var(--muted);
       font-size: 13px;
       margin-top: 3px;
     }
-
     .save-row-btn {
       border: 0;
       border-radius: 14px;
@@ -776,43 +681,34 @@
       cursor: pointer;
       white-space: nowrap;
     }
-
     @media (max-width: 880px) {
       .page {
         width: min(100% - 18px, 1180px);
         padding-top: 12px;
       }
-
       .hero {
         min-height: auto;
         padding: 24px 20px;
         border-radius: 26px;
       }
-
       .hero-inner {
         grid-template-columns: 1fr;
-        padding-top: 0;
       }
-
       .hero-mark {
         display: none;
       }
-
       .top-actions {
-        grid-template-columns: 1fr;
-        margin-top: 22px;
+        position: static;
+        margin-bottom: 14px;
       }
-
       .top-btn {
         width: 100%;
       }
-
       h1 {
         font-size: 32px;
         line-height: 1.25;
         letter-spacing: 0.05em;
       }
-
       .tabs,
       .row,
       .meta,
@@ -823,31 +719,25 @@
       .setting-row {
         grid-template-columns: 1fr;
       }
-
       .column-toggle-grid {
         grid-template-columns: 1fr 1fr;
       }
-
       .member {
         grid-template-columns: auto 1fr;
       }
-
       .submitted-badge {
         grid-column: 1 / -1;
         width: 100%;
       }
-
       .card,
       .modal {
         padding: 18px;
       }
-
       .save-row-btn,
       .small-btn {
         width: 100%;
       }
     }
-
     @media (max-width: 520px) {
       .column-toggle-grid {
         grid-template-columns: 1fr;
@@ -855,7 +745,6 @@
     }
   </style>
 </head>
-
 <body>
   <div id="loadingCover" class="loading-cover">
     <div class="loading-box">
@@ -863,26 +752,20 @@
       <div>處理中</div>
     </div>
   </div>
-
   <div id="memberModalCover" class="modal-cover">
     <div class="modal">
       <div class="modal-head">
         <h2 class="modal-title">成員清單</h2>
         <button class="close-btn" onclick="closeMemberModal()">×</button>
       </div>
-
       <div class="section-title">批次新增成員</div>
-
       <div class="batch-toolbar">
         <button class="small-btn" onclick="addMemberInputRow()">增加一人</button>
         <button class="small-btn danger" onclick="removeMemberInputRow()">減少一人</button>
         <button class="save-row-btn" onclick="addMembers()">一次新增</button>
       </div>
-
       <div id="newMembersBox"></div>
-
       <div class="section-title">清單篩選</div>
-
       <div class="manager-filter">
         <div>
           <label for="memberStatusFilter">顯示名單</label>
@@ -892,113 +775,91 @@
             <option value="否">未啟用</option>
           </select>
         </div>
-
         <div>
           <label for="memberKeywordFilter">搜尋姓名</label>
           <input id="memberKeywordFilter" type="text" placeholder="輸入姓名關鍵字" oninput="renderMemberManagerList()">
         </div>
       </div>
-
       <div id="memberManagerList" class="member-edit-list">
         <div class="empty">尚未載入成員資料</div>
       </div>
-
       <datalist id="checkerDatalist"></datalist>
     </div>
   </div>
-
   <div id="settingModalCover" class="modal-cover">
     <div class="modal">
       <div class="modal-head">
         <h2 class="modal-title">統計期間設定</h2>
         <button class="close-btn" onclick="closeSettingModal()">×</button>
       </div>
-
       <div class="section-title">設定年度與季度的統計起迄日期</div>
-
       <div class="row">
         <div>
           <label for="settingYear">年度</label>
           <select id="settingYear"></select>
         </div>
-
         <div>
           <label for="settingSeason">季度</label>
           <select id="settingSeason"></select>
         </div>
       </div>
-
       <div class="row">
         <div>
           <label for="settingStartDate">統計起日</label>
           <input id="settingStartDate" type="date">
         </div>
-
         <div>
           <label for="settingEndDate">統計迄日</label>
           <input id="settingEndDate" type="date">
         </div>
       </div>
-
       <div class="section-title">排除週次</div>
       <div class="empty" style="text-align:left;">
         勾選後，該週不列入應繳週數、未繳週次與繳交率計算。
       </div>
-
       <div id="excludeWeekList" class="members" style="margin-top:12px;">
         <div class="empty">請先選擇年度、季度與統計起迄日期</div>
       </div>
-
       <button class="btn" onclick="savePeriodSetting()">儲存統計期間</button>
-
       <div class="section-title">目前設定</div>
       <div id="settingList" class="setting-list">
         <div class="empty">尚未載入設定</div>
       </div>
     </div>
   </div>
-
   <main class="page">
     <section class="hero">
+      <div class="top-actions">
+        <button class="top-btn" onclick="openSettingManager()">設定</button>
+        <button class="top-btn" onclick="openMemberManager()">成員清單</button>
+      </div>
       <div class="hero-inner">
         <div>
           <div class="kicker">FULLTIMER EXERCISEBOOK</div>
           <h1>青年同工操練本繳交</h1>
-
-          <div class="top-actions">
-            <button class="top-btn" onclick="openSettingManager()">設定</button>
-            <button class="top-btn" onclick="openMemberManager()">成員清單</button>
-          </div>
         </div>
-
         <div class="hero-mark">
           <span>記錄</span>
         </div>
       </div>
     </section>
-
     <div class="tabs">
       <button id="tabReport" class="tab active" onclick="switchTab('report')">繳交回報</button>
       <button id="tabSearch" class="tab" onclick="switchTab('search')">調閱紀錄</button>
     </div>
-
     <div id="notice" class="notice"></div>
-
     <section id="reportPage">
       <div class="card">
         <h2>本週回報</h2>
-
         <div class="meta">
           <div class="meta-item">
             <div class="meta-label">年度</div>
             <div id="currentYear" class="meta-value">讀取中</div>
           </div>
-
           <div class="meta-item">
             <div class="meta-label">季別</div>
             <div id="currentSeason" class="meta-value">讀取中</div>
           </div>
-
           <div class="meta-item week-meta">
             <div class="week-meta-inner">
               <div class="meta-label">週次</div>
@@ -1008,73 +869,59 @@
             </div>
           </div>
         </div>
-
         <div class="section-title">勾選本週有繳交者</div>
         <div id="membersList" class="members">
           <div class="empty">資料載入中</div>
         </div>
-
         <button class="btn" onclick="submitRecords()">送出繳交紀錄</button>
       </div>
     </section>
-
     <section id="searchPage" class="hidden">
       <div class="card">
         <h2>調閱紀錄</h2>
-
         <div class="row">
           <div>
             <label for="filterYear">年度</label>
             <select id="filterYear"><option value="">今年</option></select>
           </div>
-
           <div>
             <label for="filterSeason">季度</label>
             <select id="filterSeason"><option value="">本季</option></select>
           </div>
         </div>
-
         <div class="row">
           <div>
             <label for="filterDate">日期週次</label>
             <select id="filterDate"><option value="">整個季度</option></select>
           </div>
-
           <div>
             <label for="filterName">姓名</label>
             <select id="filterName"><option value="">全部</option></select>
           </div>
         </div>
-
         <div class="row">
           <div>
             <label for="filterGender">性別</label>
             <select id="filterGender"><option value="">全部</option></select>
           </div>
-
           <div>
             <label for="filterSpecialty">專項</label>
             <select id="filterSpecialty"><option value="">全部</option></select>
           </div>
         </div>
-
         <div class="row">
           <div>
             <label for="filterCareArea">照顧區</label>
             <select id="filterCareArea"><option value="">全部</option></select>
           </div>
-
           <div>
             <label for="filterChecker">檢核者</label>
             <select id="filterChecker"><option value="">全部</option></select>
           </div>
         </div>
-
         <button class="btn" onclick="searchRecords()">查詢繳交統計</button>
         <button class="btn ghost" onclick="clearFilters()">清空條件</button>
-
         <div id="resultSummary" class="section-title">尚未查詢</div>
-
         <div id="overallBox" class="overall-grid hidden">
           <div class="overall-card">
             <div class="label">應繳總次數</div>
@@ -1093,12 +940,10 @@
             <div id="overallRate" class="value">0%</div>
           </div>
         </div>
-
         <div id="columnTogglePanel" class="column-toggle-panel">
           <div class="column-toggle-title">表格欄位顯示</div>
           <div id="columnToggleGrid" class="column-toggle-grid"></div>
         </div>
-
         <div class="table-wrap">
           <table>
             <thead>
@@ -1125,17 +970,13 @@
       </div>
     </section>
   </main>
-
   <script>
     const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw-TQT8iaQnfvRUmrg3LiEHdEeliwY4kpkENF2Nw2iZl9C9wQSSpW2JM73ige87DmFj/exec';
-
     const MANAGER_PASSWORD = '2834';
-
     const FALLBACK_SPECIALTIES = ['兒青', '大學', '中學', '兒童', '青職', '無'];
     const FALLBACK_CARE_AREAS = ['東', '西', '中', '南A', '南B', '北', '無', '屏'];
     const FALLBACK_SEASONS = ['春季', '秋季'];
     const FALLBACK_GENDERS = ['弟兄', '姊妹'];
-
     const TABLE_COLUMNS = [
       { key: 'name', label: '姓名', fixed: true },
       { key: 'gender', label: '性別', fixed: false },
@@ -1148,10 +989,8 @@
       { key: 'rate', label: '繳交率', fixed: true },
       { key: 'missingWeeks', label: '未繳週次', fixed: false }
     ];
-
     let managerPassword = '';
     let settingPassword = '';
-
     let state = {
       year: '',
       season: '',
@@ -1185,63 +1024,48 @@
         checkers: []
       }
     };
-
     document.addEventListener('DOMContentLoaded', init);
-
     function api(action, payload = {}) {
       return new Promise((resolve, reject) => {
         if (!GAS_WEB_APP_URL || GAS_WEB_APP_URL.includes('請貼上')) {
           reject(new Error('尚未設定 GAS_WEB_APP_URL'));
           return;
         }
-
         const callbackName = 'jsonpCallback_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
-
         const query = new URLSearchParams();
         query.set('action', action);
         query.set('callback', callbackName);
         query.set('payload', JSON.stringify(payload || {}));
-
         const script = document.createElement('script');
         script.src = GAS_WEB_APP_URL + '?' + query.toString();
-
         const timer = setTimeout(() => {
           cleanup();
           reject(new Error('連線逾時，請確認 GAS Web App 是否已重新部署'));
         }, 30000);
-
         window[callbackName] = function(res) {
           cleanup();
-
           if (!res || res.success === false) {
             reject(new Error(res && res.message ? res.message : '操作失敗'));
             return;
           }
-
           resolve(res);
         };
-
         script.onerror = function() {
           cleanup();
           reject(new Error('無法連線 GAS Web App，請確認 /exec 網址與部署權限'));
         };
-
         function cleanup() {
           clearTimeout(timer);
           delete window[callbackName];
-
           if (script.parentNode) {
             script.parentNode.removeChild(script);
           }
         }
-
         document.body.appendChild(script);
       });
     }
-
     async function init() {
       showLoading(true);
-
       try {
         const res = await api('getInitialData', {});
         applyServerState(res);
@@ -1253,10 +1077,8 @@
         showLoading(false);
       }
     }
-
     function applyServerState(res) {
       if (!res) return;
-
       state.year = res.year || state.year;
       state.season = res.season || state.season;
       state.week = res.week || state.week;
@@ -1264,19 +1086,15 @@
       state.members = Array.isArray(res.members) ? sortMembers(res.members) : state.members;
       state.allMembers = Array.isArray(res.allMembers) ? sortMembers(res.allMembers) : state.allMembers;
       state.submittedKeys = Array.isArray(res.submittedKeys) ? res.submittedKeys : state.submittedKeys;
-
       if (res.searchOptions) {
         state.searchOptions = normalizeSearchOptions(res.searchOptions);
       }
-
       if (Array.isArray(res.settings)) {
         state.periodSettings = res.settings;
       }
     }
-
     function normalizeSearchOptions(options) {
       const o = options || {};
-
       return {
         years: Array.isArray(o.years) ? o.years : [],
         seasons: Array.isArray(o.seasons) && o.seasons.length ? o.seasons : FALLBACK_SEASONS,
@@ -1288,7 +1106,6 @@
         checkers: Array.isArray(o.checkers) ? o.checkers : []
       };
     }
-
     function renderAll() {
       renderMeta();
       renderWeekOptions();
@@ -1301,29 +1118,22 @@
       renderMemberManagerList();
       renderPeriodSettings();
     }
-
     async function switchTab(tab) {
       const isReport = tab === 'report';
-
       document.getElementById('reportPage').classList.toggle('hidden', !isReport);
       document.getElementById('searchPage').classList.toggle('hidden', isReport);
-
       document.getElementById('tabReport').classList.toggle('active', isReport);
       document.getElementById('tabSearch').classList.toggle('active', !isReport);
-
       if (!isReport && !state.searchOptionsLoaded) {
         await loadSearchOptions();
       }
-
       if (!isReport) {
         renderColumnToggles();
         applyColumnVisibility();
       }
     }
-
     async function loadSearchOptions() {
       showLoading(true);
-
       try {
         const res = await api('getSearchOptions', {});
         if (res.searchOptions) {
@@ -1337,13 +1147,10 @@
         showLoading(false);
       }
     }
-
     async function changeWeek() {
       const value = document.getElementById('weekPicker').value;
       if (!value) return;
-
       showLoading(true);
-
       try {
         const res = await api('getWeekByStartDate', { weekStart: value });
         applyServerState(res);
@@ -1354,41 +1161,32 @@
         showLoading(false);
       }
     }
-
     function renderMeta() {
       document.getElementById('currentYear').textContent = state.year || '';
       document.getElementById('currentSeason').textContent = state.season || '';
     }
-
     function renderWeekOptions() {
       const select = document.getElementById('weekPicker');
       if (!select) return;
-
       const options = Array.isArray(state.weekOptions) ? state.weekOptions : [];
       const currentStart = state.week ? toInputDateValue(state.week.start) : '';
-
       if (!options.length) {
         select.innerHTML = '<option value="">沒有週次資料</option>';
         return;
       }
-
       select.innerHTML = options.map(item => {
         const selected = item.value === currentStart ? 'selected' : '';
         return '<option value="' + escapeAttr(item.value) + '" ' + selected + '>' + escapeHtml(item.label) + '</option>';
       }).join('');
     }
-
     function toInputDateValue(sheetDateText) {
       const parts = String(sheetDateText || '').split('/');
       if (parts.length !== 3) return '';
-
       const y = parts[0];
       const m = String(parts[1]).padStart(2, '0');
       const d = String(parts[2]).padStart(2, '0');
-
       return y + '-' + m + '-' + d;
     }
-
     function makeSubmissionKey(name, gender, specialty, careArea) {
       return [
         String(name || '').trim(),
@@ -1397,7 +1195,6 @@
         String(careArea || '').trim()
       ].join('||');
     }
-
     function getSpecialtyOptions() {
       return uniqueValues([
         ...FALLBACK_SPECIALTIES,
@@ -1406,7 +1203,6 @@
         ...(state.allMembers || []).map(m => m.specialty)
       ]);
     }
-
     function getCareAreaOptions() {
       return sortCareAreas(uniqueValues([
         ...FALLBACK_CARE_AREAS,
@@ -1415,7 +1211,6 @@
         ...(state.allMembers || []).map(m => m.careArea)
       ]));
     }
-
     function getCheckerOptions() {
       return uniqueValues([
         ...(state.searchOptions.checkers || []),
@@ -1423,33 +1218,25 @@
         ...(state.allMembers || []).map(m => m.checker)
       ]);
     }
-
     function uniqueValues(values) {
       const seen = {};
       const output = [];
-
       values.forEach(value => {
         const text = String(value || '').trim();
-
         if (!text) return;
         if (seen[text]) return;
-
         seen[text] = true;
         output.push(text);
       });
-
       return output;
     }
-
     function renderColumnToggles() {
       const box = document.getElementById('columnToggleGrid');
       if (!box) return;
-
       box.innerHTML = TABLE_COLUMNS.map(col => {
         const checked = state.visibleColumns[col.key] ? 'checked' : '';
         const disabled = col.fixed ? 'disabled' : '';
         const fixedClass = col.fixed ? ' fixed' : '';
-
         return '' +
           '<label class="column-toggle-item' + fixedClass + '">' +
             '<input ' +
@@ -1463,78 +1250,60 @@
           '</label>';
       }).join('');
     }
-
     function toggleTableColumn(key, checked) {
       const column = TABLE_COLUMNS.find(col => col.key === key);
-
       if (!column) return;
-
       if (column.fixed) {
         state.visibleColumns[key] = true;
       } else {
         state.visibleColumns[key] = !!checked;
       }
-
       applyColumnVisibility();
     }
-
     function applyColumnVisibility() {
       TABLE_COLUMNS.forEach(col => {
         const visible = col.fixed ? true : !!state.visibleColumns[col.key];
-
         document.querySelectorAll('[data-col="' + col.key + '"]').forEach(el => {
           el.classList.toggle('col-hidden', !visible);
         });
       });
     }
-
     function renderNewMemberRows() {
       const box = document.getElementById('newMembersBox');
       if (!box) return;
-
       if (!box.children.length) {
         box.appendChild(createMemberInputRow());
       }
-
       Array.from(box.querySelectorAll('.new-specialty')).forEach(select => {
         const current = select.value;
         const values = getSpecialtyOptions();
-
         select.innerHTML =
           '<option value="">請選擇</option>' +
           values.map(v => '<option value="' + escapeAttr(v) + '">' + escapeHtml(v) + '</option>').join('');
-
         if (current && values.includes(current)) {
           select.value = current;
         }
       });
-
       Array.from(box.querySelectorAll('.new-care-area')).forEach(select => {
         const current = select.value;
         const values = getCareAreaOptions();
-
         select.innerHTML =
           '<option value="">請選擇</option>' +
           values.map(v => '<option value="' + escapeAttr(v) + '">' + escapeHtml(v) + '</option>').join('');
-
         if (current && values.includes(current)) {
           select.value = current;
         }
       });
     }
-
     function createMemberInputRow() {
       const row = document.createElement('div');
       row.className = 'add-member-row';
-
       const specialtyOptions = getSpecialtyOptions()
         .map(v => '<option value="' + escapeAttr(v) + '">' + escapeHtml(v) + '</option>')
         .join('');
-
       const careAreaOptions = getCareAreaOptions()
         .map(v => '<option value="' + escapeAttr(v) + '">' + escapeHtml(v) + '</option>')
         .join('');
-
       row.innerHTML =
         '<div>' +
           '<label>姓名</label>' +
@@ -1567,38 +1336,30 @@
           '<input class="new-checker" list="checkerDatalist" type="text" placeholder="輸入或選擇">' +
         '</div>' +
         '<button class="small-btn danger" onclick="removeSpecificMemberInputRow(this)">移除</button>';
-
       return row;
     }
-
     function addMemberInputRow() {
       document.getElementById('newMembersBox').appendChild(createMemberInputRow());
     }
-
     function removeMemberInputRow() {
       const box = document.getElementById('newMembersBox');
       if (box.children.length > 1) {
         box.removeChild(box.lastElementChild);
       }
     }
-
     function removeSpecificMemberInputRow(button) {
       const box = document.getElementById('newMembersBox');
       if (box.children.length <= 1) return;
-
       const row = button.closest('.add-member-row');
       if (row) row.remove();
     }
-
     function renderCheckerDatalist() {
       const list = document.getElementById('checkerDatalist');
       if (!list) return;
-
       list.innerHTML = getCheckerOptions()
         .map(v => '<option value="' + escapeAttr(v) + '"></option>')
         .join('');
     }
-
     function renderSearchOptions() {
       fillSelect('filterYear', state.searchOptions.years, '今年');
       fillSelect('filterSeason', state.searchOptions.seasons, '本季');
@@ -1609,42 +1370,32 @@
       fillSelect('filterCareArea', state.searchOptions.careAreas, '全部');
       fillSelect('filterChecker', state.searchOptions.checkers, '全部');
     }
-
     function fillSelect(id, list, firstLabel) {
       const select = document.getElementById(id);
       if (!select) return;
-
       const current = select.value;
       const values = Array.isArray(list) ? list.filter(Boolean) : [];
-
       select.innerHTML =
         '<option value="">' + escapeHtml(firstLabel || '全部') + '</option>' +
         values.map(v => '<option value="' + escapeAttr(v) + '">' + escapeHtml(v) + '</option>').join('');
-
       if (current && values.includes(current)) {
         select.value = current;
       }
     }
-
     function renderMembers() {
       const box = document.getElementById('membersList');
-
       if (!state.members.length) {
         box.innerHTML = '<div class="empty">目前沒有可回報的啟用成員</div>';
         return;
       }
-
       const submittedSet = {};
       (state.submittedKeys || []).forEach(key => {
         submittedSet[key] = true;
       });
-
       const members = sortMembers(state.members);
-
       box.innerHTML = members.map(m => {
         const key = makeSubmissionKey(m.name, m.gender, m.specialty, m.careArea);
         const submitted = !!submittedSet[key];
-
         return '' +
           '<div class="member ' + (submitted ? 'submitted' : '') + '">' +
             '<input ' +
@@ -1670,22 +1421,16 @@
           '</div>';
       }).join('');
     }
-
     async function openMemberManager() {
       const input = prompt('請輸入成員清單密碼');
-
       if (input !== MANAGER_PASSWORD) {
         showNotice('密碼錯誤', true);
         return;
       }
-
       managerPassword = input;
-
       document.getElementById('memberModalCover').style.display = 'flex';
       document.getElementById('memberManagerList').innerHTML = '<div class="empty">成員資料載入中...</div>';
-
       showLoading(true);
-
       try {
         const res = await api('getMemberManagerData', { password: managerPassword });
         applyServerState(res);
@@ -1698,26 +1443,19 @@
         showLoading(false);
       }
     }
-
     function closeMemberModal() {
       document.getElementById('memberModalCover').style.display = 'none';
     }
-
     async function openSettingManager() {
       const input = prompt('請輸入設定密碼');
-
       if (input !== MANAGER_PASSWORD) {
         showNotice('密碼錯誤', true);
         return;
       }
-
       settingPassword = input;
-
       document.getElementById('settingModalCover').style.display = 'flex';
       document.getElementById('settingList').innerHTML = '<div class="empty">設定資料載入中...</div>';
-
       showLoading(true);
-
       try {
         const res = await api('getPeriodSettings', { password: settingPassword });
         state.periodSettings = Array.isArray(res.settings) ? res.settings : [];
@@ -1731,54 +1469,43 @@
         showLoading(false);
       }
     }
-
     function closeSettingModal() {
       document.getElementById('settingModalCover').style.display = 'none';
     }
-
     function renderSettingControls(years) {
       const yearSelect = document.getElementById('settingYear');
       const seasonSelect = document.getElementById('settingSeason');
-
       const currentYear = Number(state.year) || new Date().getFullYear();
       const list = Array.isArray(years) && years.length
         ? years
         : [currentYear - 1, currentYear, currentYear + 1];
-
       yearSelect.innerHTML = list.map(y => {
         const selected = Number(y) === Number(state.year) ? 'selected' : '';
         return '<option value="' + escapeAttr(y) + '" ' + selected + '>' + escapeHtml(y) + '</option>';
       }).join('');
-
       seasonSelect.innerHTML = FALLBACK_SEASONS.map(season => {
         const selected = season === state.season ? 'selected' : '';
         return '<option value="' + escapeAttr(season) + '" ' + selected + '>' + escapeHtml(season) + '</option>';
       }).join('');
-
       yearSelect.onchange = syncSettingDateInputs;
       seasonSelect.onchange = syncSettingDateInputs;
       document.getElementById('settingStartDate').onchange = renderExcludeWeekList;
       document.getElementById('settingEndDate').onchange = renderExcludeWeekList;
-
       syncSettingDateInputs();
     }
-
     function syncSettingDateInputs() {
       const year = Number(document.getElementById('settingYear').value);
       const season = document.getElementById('settingSeason').value;
-
       const found = state.periodSettings.find(s =>
         Number(s.year) === year &&
         String(s.season) === String(season)
       );
-
       if (found) {
         document.getElementById('settingStartDate').value = found.startDate || '';
         document.getElementById('settingEndDate').value = found.endDate || '';
         renderExcludeWeekList();
         return;
       }
-
       if (season === '春季') {
         document.getElementById('settingStartDate').value = year + '-01-01';
         document.getElementById('settingEndDate').value = year + '-06-30';
@@ -1786,48 +1513,37 @@
         document.getElementById('settingStartDate').value = year + '-07-01';
         document.getElementById('settingEndDate').value = year + '-12-31';
       }
-
       renderExcludeWeekList();
     }
-
     function renderExcludeWeekList() {
       const box = document.getElementById('excludeWeekList');
       if (!box) return;
-
       const year = Number(document.getElementById('settingYear').value);
       const season = document.getElementById('settingSeason').value;
       const startDate = document.getElementById('settingStartDate').value;
       const endDate = document.getElementById('settingEndDate').value;
-
       if (!year || !season || !startDate || !endDate) {
         box.innerHTML = '<div class="empty">請先選擇年度、季度與統計起迄日期</div>';
         return;
       }
-
       const currentSetting = state.periodSettings.find(s =>
         Number(s.year) === year &&
         String(s.season) === String(season)
       );
-
       const excludedSet = {};
       const excludedWeeks = currentSetting && Array.isArray(currentSetting.excludedWeeks)
         ? currentSetting.excludedWeeks
         : [];
-
       excludedWeeks.forEach(label => {
         excludedSet[String(label).trim()] = true;
       });
-
       const weeks = buildWeekOptionsByDateRange(startDate, endDate);
-
       if (!weeks.length) {
         box.innerHTML = '<div class="empty">此日期範圍內沒有週次</div>';
         return;
       }
-
       box.innerHTML = weeks.map(w => {
         const checked = excludedSet[w.fullLabel] ? 'checked' : '';
-
         return '' +
           '<label class="member" style="cursor:pointer;">' +
             '<input type="checkbox" class="exclude-week-check" value="' + escapeAttr(w.fullLabel) + '" ' + checked + '>' +
@@ -1838,68 +1554,54 @@
           '</label>';
       }).join('');
     }
-
     function buildWeekOptionsByDateRange(startDateText, endDateText) {
       const start = new Date(startDateText + 'T00:00:00');
       const end = new Date(endDateText + 'T00:00:00');
-
       if (isNaN(start.getTime()) || isNaN(end.getTime()) || start > end) {
         return [];
       }
-
       const cursor = new Date(start);
       const day = cursor.getDay();
       const diffToMonday = day === 0 ? -6 : 1 - day;
       cursor.setDate(cursor.getDate() + diffToMonday);
-
       const weeks = [];
-
       while (cursor <= end) {
         const weekStart = new Date(cursor);
         const weekEnd = new Date(cursor);
         weekEnd.setDate(weekEnd.getDate() + 6);
-
         if (weekEnd >= start && weekStart <= end) {
           const startFull = formatDateSlash(weekStart);
           const endFull = formatDateSlash(weekEnd);
           const startShort = formatDateShort(weekStart);
           const endShort = formatDateShort(weekEnd);
-
           weeks.push({
             fullLabel: startFull + '-' + endFull,
             shortLabel: startShort + '-' + endShort
           });
         }
-
         cursor.setDate(cursor.getDate() + 7);
       }
-
       return weeks;
     }
-
     function getSelectedExcludedWeeks() {
       return Array.from(document.querySelectorAll('.exclude-week-check:checked'))
         .map(el => String(el.value || '').trim())
         .filter(Boolean);
     }
-
     function formatDateSlash(date) {
       const y = date.getFullYear();
       const m = String(date.getMonth() + 1).padStart(2, '0');
       const d = String(date.getDate()).padStart(2, '0');
       return y + '/' + m + '/' + d;
     }
-
     function formatDateShort(date) {
       return (date.getMonth() + 1) + '/' + date.getDate();
     }
-
     async function savePeriodSetting() {
       if (!settingPassword) {
         showNotice('請先輸入設定密碼', true);
         return;
       }
-
       const payload = {
         password: settingPassword,
         year: document.getElementById('settingYear').value,
@@ -1908,16 +1610,12 @@
         endDate: document.getElementById('settingEndDate').value,
         excludedWeeks: getSelectedExcludedWeeks()
       };
-
       showLoading(true);
-
       try {
         const res = await api('savePeriodSetting', payload);
         showNotice(res.message || '設定已儲存');
-
         state.periodSettings = Array.isArray(res.settings) ? res.settings : [];
         state.searchOptionsLoaded = false;
-
         renderPeriodSettings();
         renderExcludeWeekList();
       } catch (err) {
@@ -1926,19 +1624,15 @@
         showLoading(false);
       }
     }
-
     function renderPeriodSettings() {
       const box = document.getElementById('settingList');
       if (!box) return;
-
       if (!state.periodSettings.length) {
         box.innerHTML = '<div class="empty">尚未載入設定</div>';
         return;
       }
-
       box.innerHTML = state.periodSettings.map(s => {
         const excludedCount = Array.isArray(s.excludedWeeks) ? s.excludedWeeks.length : 0;
-
         return '' +
           '<div class="setting-row">' +
             '<div>' +
@@ -1965,21 +1659,17 @@
           '</div>';
       }).join('');
     }
-
     function selectPeriodSetting(year, season) {
       document.getElementById('settingYear').value = year;
       document.getElementById('settingSeason').value = season;
       syncSettingDateInputs();
     }
-
     async function addMembers() {
       if (!managerPassword) {
         showNotice('請先輸入成員清單密碼', true);
         return;
       }
-
       const rows = Array.from(document.querySelectorAll('#newMembersBox .add-member-row'));
-
       const members = rows.map(row => ({
         name: row.querySelector('.new-name').value.trim(),
         gender: row.querySelector('.new-gender').value,
@@ -1987,21 +1677,16 @@
         careArea: row.querySelector('.new-care-area').value.trim(),
         checker: row.querySelector('.new-checker').value.trim()
       })).filter(m => m.name || m.gender || m.specialty || m.careArea || m.checker);
-
       if (!members.length) {
         showNotice('請至少輸入一位成員', true);
         return;
       }
-
       const invalidIndex = members.findIndex(m => !m.name || !m.gender || !m.specialty || !m.careArea || !m.checker);
-
       if (invalidIndex >= 0) {
         showNotice('第 ' + (invalidIndex + 1) + ' 位成員資料未填完整', true);
         return;
       }
-
       showLoading(true);
-
       try {
         const res = await api('addMembers', {
           password: managerPassword,
@@ -2009,16 +1694,12 @@
           season: state.season,
           members: members
         });
-
         showNotice(res.message || '成員已新增');
         applyServerState(res);
-
         const box = document.getElementById('newMembersBox');
         box.innerHTML = '';
         box.appendChild(createMemberInputRow());
-
         state.searchOptionsLoaded = false;
-
         renderAll();
       } catch (err) {
         showNotice(err.message || '新增失敗', true);
@@ -2026,38 +1707,28 @@
         showLoading(false);
       }
     }
-
     function renderMemberManagerList() {
       const box = document.getElementById('memberManagerList');
       if (!box) return;
-
       const statusEl = document.getElementById('memberStatusFilter');
       const keywordEl = document.getElementById('memberKeywordFilter');
-
       const status = statusEl ? statusEl.value : '全部';
       const keyword = keywordEl ? keywordEl.value.trim() : '';
-
       let members = Array.isArray(state.allMembers) ? sortMembers(state.allMembers) : [];
-
       if (status !== '全部') {
         members = members.filter(m => m.active === status);
       }
-
       if (keyword) {
         members = members.filter(m => String(m.name || '').includes(keyword));
       }
-
       if (!members.length) {
         box.innerHTML = '<div class="empty">沒有符合條件的成員</div>';
         return;
       }
-
       const specialties = getSpecialtyOptions();
       const careAreas = getCareAreaOptions();
-
       box.innerHTML = members.map(m => {
         const safeId = escapeAttr(m.id);
-
         return '' +
           '<div class="member-edit-row">' +
             '<div>' +
@@ -2091,35 +1762,28 @@
           '</div>';
       }).join('');
     }
-
     async function updateMember(memberId) {
       const specialty = document.getElementById('specialty_' + memberId).value;
       const careArea = document.getElementById('careArea_' + memberId).value.trim();
       const checker = document.getElementById('checker_' + memberId).value.trim();
       const active = document.getElementById('active_' + memberId).value;
-
       if (!managerPassword) {
         showNotice('請先輸入成員清單密碼', true);
         return;
       }
-
       if (!specialty) {
         showNotice('請選擇專項', true);
         return;
       }
-
       if (!careArea) {
         showNotice('請選擇照顧區', true);
         return;
       }
-
       if (!checker) {
         showNotice('請輸入檢核者', true);
         return;
       }
-
       showLoading(true);
-
       try {
         const res = await api('updateMember', {
           password: managerPassword,
@@ -2131,7 +1795,6 @@
           checker: checker,
           active: active
         });
-
         showNotice(res.message || '成員資料已更新');
         applyServerState(res);
         state.searchOptionsLoaded = false;
@@ -2142,15 +1805,12 @@
         showLoading(false);
       }
     }
-
     async function submitRecords() {
       const checked = Array.from(document.querySelectorAll('.member-check:checked:not(:disabled)'));
-
       if (!checked.length) {
         showNotice('請至少勾選一位尚未回報的成員', true);
         return;
       }
-
       const payload = {
         year: state.year,
         season: state.season,
@@ -2165,14 +1825,10 @@
           checker: el.dataset.checker
         }))
       };
-
       showLoading(true);
-
       try {
         const res = await api('submitRecords', payload);
-
         showNotice(res.message || '回報完成');
-
         if (Array.isArray(res.submittedKeys)) {
           state.submittedKeys = res.submittedKeys;
         } else {
@@ -2183,13 +1839,11 @@
               el.dataset.specialty,
               el.dataset.careArea
             );
-
             if (!state.submittedKeys.includes(key)) {
               state.submittedKeys.push(key);
             }
           });
         }
-
         state.searchOptionsLoaded = false;
         renderMembers();
       } catch (err) {
@@ -2198,7 +1852,6 @@
         showLoading(false);
       }
     }
-
     async function searchRecords() {
       const filters = {
         year: document.getElementById('filterYear').value,
@@ -2210,9 +1863,7 @@
         careArea: document.getElementById('filterCareArea').value,
         checker: document.getElementById('filterChecker').value
       };
-
       showLoading(true);
-
       try {
         const res = await api('searchRecords', filters);
         renderResults(res);
@@ -2222,16 +1873,13 @@
         showLoading(false);
       }
     }
-
     function renderResults(res) {
       const body = document.getElementById('resultBody');
       const overallBox = document.getElementById('overallBox');
-
       document.getElementById('resultSummary').textContent =
         '統計範圍：' + (res.periodLabel || '') +
         '｜週數：' + (res.weekCount || 0) +
         '｜人數：' + (res.memberCount || 0);
-
       if (res.overall) {
         overallBox.classList.remove('hidden');
         document.getElementById('overallExpected').textContent = res.overall.expectedTotal || 0;
@@ -2241,23 +1889,19 @@
       } else {
         overallBox.classList.add('hidden');
       }
-
       if (!res.summaryRows || !res.summaryRows.length) {
         body.innerHTML = '<tr><td colspan="10" class="empty">查無符合條件的成員</td></tr>';
         applyColumnVisibility();
         return;
       }
-
       body.innerHTML = res.summaryRows.map(r => {
         const rateClass =
           Number(r.rate) >= 80 ? 'rate-good' :
           Number(r.rate) >= 50 ? 'rate-mid' :
           'rate-bad';
-
         const missingText = Array.isArray(r.missingWeeks) && r.missingWeeks.length
           ? r.missingWeeks.join('、')
           : '無';
-
         return '' +
           '<tr>' +
             '<td data-col="name">' + escapeHtml(r.name) + '</td>' +
@@ -2272,10 +1916,8 @@
             '<td data-col="missingWeeks" class="missing-weeks">' + escapeHtml(missingText) + '</td>' +
           '</tr>';
       }).join('');
-
       applyColumnVisibility();
     }
-
     function clearFilters() {
       document.getElementById('filterYear').value = '';
       document.getElementById('filterSeason').value = '';
@@ -2285,15 +1927,12 @@
       document.getElementById('filterSpecialty').value = '';
       document.getElementById('filterCareArea').value = '';
       document.getElementById('filterChecker').value = '';
-
       document.getElementById('overallBox').classList.add('hidden');
       document.getElementById('resultSummary').textContent = '尚未查詢';
       document.getElementById('resultBody').innerHTML =
         '<tr><td colspan="10" class="empty">請選擇條件後查詢</td></tr>';
-
       applyColumnVisibility();
     }
-
     function sortMembers(members) {
       return members.slice().sort((a, b) => {
         return (
@@ -2303,43 +1942,34 @@
         );
       });
     }
-
     function genderRank(value) {
       const order = ['弟兄', '姊妹'];
       const idx = order.indexOf(String(value || '').trim());
       return idx >= 0 ? idx : 99;
     }
-
     function careAreaRank(value) {
       const idx = FALLBACK_CARE_AREAS.indexOf(String(value || '').trim());
       return idx >= 0 ? idx : 99;
     }
-
     function sortCareAreas(values) {
       return values.slice().sort((a, b) => {
         return careAreaRank(a) - careAreaRank(b) || String(a).localeCompare(String(b), 'zh-Hant');
       });
     }
-
     function showNotice(message, isError) {
       const box = document.getElementById('notice');
-
       box.textContent = message;
       box.classList.toggle('error', !!isError);
       box.style.display = 'block';
-
       window.scrollTo({ top: 0, behavior: 'smooth' });
-
       clearTimeout(window.__noticeTimer);
       window.__noticeTimer = setTimeout(() => {
         box.style.display = 'none';
       }, 3800);
     }
-
     function showLoading(show) {
       document.getElementById('loadingCover').style.display = show ? 'grid' : 'none';
     }
-
     function escapeHtml(value) {
       return String(value ?? '')
         .replaceAll('&', '&amp;')
@@ -2348,11 +1978,9 @@
         .replaceAll('"', '&quot;')
         .replaceAll("'", '&#039;');
     }
-
     function escapeAttr(value) {
       return escapeHtml(value);
     }
-
     function escapeJs(value) {
       return String(value ?? '')
         .replaceAll('\\', '\\\\')
