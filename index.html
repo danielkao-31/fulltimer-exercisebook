@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>簿本繳交記錄</title>
+  <title>青年同工操練本繳交</title>
 
   <style>
     :root {
@@ -88,10 +88,10 @@
     }
 
     .hero {
-      min-height: 260px;
+      min-height: 210px;
       border: 1px solid var(--line);
       border-radius: 34px;
-      padding: 34px 30px;
+      padding: 32px 30px;
       background:
         linear-gradient(135deg, rgba(255,255,255,0.09), rgba(255,255,255,0.035)),
         linear-gradient(135deg, rgba(197,169,91,0.08), transparent 58%);
@@ -140,7 +140,7 @@
       font-size: 13px;
       letter-spacing: 0.28em;
       font-weight: 800;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       text-transform: uppercase;
     }
 
@@ -155,24 +155,24 @@
     h1 {
       margin: 0;
       color: var(--white);
-      font-size: clamp(42px, 10vw, 96px);
-      line-height: 0.95;
-      letter-spacing: 0.12em;
+      font-size: clamp(30px, 5.2vw, 54px);
+      line-height: 1.2;
+      letter-spacing: 0.08em;
       font-weight: 950;
       text-shadow: 0 12px 36px rgba(0,0,0,0.22);
     }
 
     .hero-sub {
-      margin: 18px 0 0;
+      margin: 16px 0 0;
       max-width: 660px;
       color: var(--muted);
-      line-height: 1.9;
+      line-height: 1.8;
       font-size: 15px;
     }
 
     .hero-mark {
-      width: 126px;
-      height: 126px;
+      width: 112px;
+      height: 112px;
       border: 1px solid var(--line-strong);
       transform: rotate(45deg);
       display: grid;
@@ -520,7 +520,7 @@
 
       .hero {
         min-height: auto;
-        padding: 26px 20px;
+        padding: 24px 20px;
         border-radius: 26px;
       }
 
@@ -530,6 +530,12 @@
 
       .hero-mark {
         display: none;
+      }
+
+      h1 {
+        font-size: 32px;
+        line-height: 1.25;
+        letter-spacing: 0.05em;
       }
 
       .hero-sub {
@@ -573,8 +579,7 @@
         <div>
           <div class="kicker">FULLTIMER EXERCISEBOOK</div>
           <h1>青年同工操練本繳交</h1>
-          <p class="hero-sub">
-          </p>
+          <p class="hero-sub"></p>
         </div>
 
         <div class="hero-mark">
@@ -732,11 +737,14 @@
   <script>
     const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw-TQT8iaQnfvRUmrg3LiEHdEeliwY4kpkENF2Nw2iZl9C9wQSSpW2JM73ige87DmFj/exec';
 
+    const FALLBACK_SPECIALTIES = ['兒青', '大學', '中學', '兒童', '青職'];
+
     let state = {
       year: '',
       season: '',
       week: null,
       settings: [],
+      defaultSpecialties: FALLBACK_SPECIALTIES,
       members: []
     };
 
@@ -800,6 +808,9 @@
         state.season = res.season;
         state.week = res.week;
         state.settings = res.settings || [];
+        state.defaultSpecialties = Array.isArray(res.defaultSpecialties) && res.defaultSpecialties.length
+          ? res.defaultSpecialties
+          : FALLBACK_SPECIALTIES;
         state.members = res.members || [];
 
         document.getElementById('datePicker').value = res.todayForInput || '';
@@ -810,6 +821,7 @@
         renderMembers();
       } catch (err) {
         showNotice(err.message || '載入失敗', true);
+        renderSpecialtyOptions();
       } finally {
         showLoading(false);
       }
@@ -840,6 +852,9 @@
         state.season = res.season;
         state.week = res.week;
         state.settings = res.settings || [];
+        state.defaultSpecialties = Array.isArray(res.defaultSpecialties) && res.defaultSpecialties.length
+          ? res.defaultSpecialties
+          : FALLBACK_SPECIALTIES;
 
         renderMeta();
         renderSettings();
@@ -852,6 +867,16 @@
       }
     }
 
+    function getAvailableSpecialties() {
+      const fromSettings = state.settings
+        .map(s => s.specialty)
+        .filter(Boolean);
+
+      const source = fromSettings.length ? fromSettings : state.defaultSpecialties;
+
+      return [...new Set(source)];
+    }
+
     function renderMeta() {
       document.getElementById('currentYear').textContent = state.year || '';
       document.getElementById('currentSeason').textContent = state.season || '';
@@ -862,7 +887,12 @@
       const box = document.getElementById('settingsList');
 
       if (!state.settings.length) {
-        box.innerHTML = '<div class="empty">目前年度季別尚未設定專項與檢核者</div>';
+        box.innerHTML = `
+          <div class="empty">
+            目前年度季別尚未設定檢核者。<br>
+            專項選單會先使用預設專項；若要自動帶入檢核者，請填寫「年度設定」分頁。
+          </div>
+        `;
         return;
       }
 
@@ -879,7 +909,7 @@
 
     function renderSpecialtyOptions() {
       const select = document.getElementById('newSpecialty');
-      const specialties = [...new Set(state.settings.map(s => s.specialty).filter(Boolean))];
+      const specialties = getAvailableSpecialties();
 
       if (!specialties.length) {
         select.innerHTML = '<option value="">尚未設定</option>';
@@ -893,8 +923,12 @@
 
     function renderMembers() {
       const box = document.getElementById('membersList');
-      const validSpecialties = new Set(state.settings.map(s => s.specialty));
-      const visibleMembers = state.members.filter(m => validSpecialties.has(m.specialty));
+      const validSpecialties = new Set(getAvailableSpecialties());
+
+      const visibleMembers = state.members.filter(m => {
+        if (!m.specialty) return true;
+        return validSpecialties.has(m.specialty);
+      });
 
       if (!visibleMembers.length) {
         box.innerHTML = '<div class="empty">目前沒有可回報的啟用成員</div>';
@@ -917,7 +951,7 @@
             >
             <div>
               <div class="member-main">${escapeHtml(m.name)}</div>
-              <div class="member-sub">${escapeHtml(m.gender)}｜${escapeHtml(m.specialty)}｜檢核者：${escapeHtml(checker || '未填')}</div>
+              <div class="member-sub">${escapeHtml(m.gender)}｜${escapeHtml(m.specialty)}｜檢核者：${escapeHtml(checker || '未設定')}</div>
             </div>
             <button class="delete-small" onclick="disableMember('${escapeAttr(m.id)}')">刪除</button>
           </div>
