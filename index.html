@@ -225,7 +225,7 @@
     }
     .meta {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 10px;
       margin-bottom: 18px;
     }
@@ -858,6 +858,10 @@
             <div class="meta-label">季別</div>
             <div id="currentSeason" class="meta-value">讀取中</div>
           </div>
+          <div class="meta-item">
+            <div class="meta-label">今天日期</div>
+            <div id="todayDateText" class="meta-value">讀取中</div>
+          </div>
           <div class="meta-item week-meta">
             <div class="week-meta-inner">
               <div class="meta-label">週次</div>
@@ -1067,6 +1071,7 @@
       try {
         const res = await api('getInitialData', {});
         applyServerState(res);
+        await applyPreviousWeekAsDefault();
         renderAll();
       } catch (err) {
         showNotice(err.message || '載入失敗', true);
@@ -1162,6 +1167,73 @@
     function renderMeta() {
       document.getElementById('currentYear').textContent = state.year || '';
       document.getElementById('currentSeason').textContent = state.season || '';
+
+      const todayBox = document.getElementById('todayDateText');
+      if (todayBox) {
+        todayBox.textContent = getTaipeiTodayDisplayText();
+      }
+    }
+    async function applyPreviousWeekAsDefault() {
+      const targetWeekStart = getPreviousWeekStartValue();
+      if (!targetWeekStart) return;
+
+      const options = Array.isArray(state.weekOptions) ? state.weekOptions : [];
+      const matched = options.some(item => item.value === targetWeekStart);
+      if (!matched) return;
+
+      const currentStart = state.week ? toInputDateValue(state.week.start) : '';
+      if (currentStart === targetWeekStart) return;
+
+      const res = await api('getWeekByStartDate', {
+        weekStart: targetWeekStart
+      });
+      applyServerState(res);
+    }
+    function getTaipeiTodayDateObject() {
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Taipei',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }).formatToParts(new Date());
+
+      const map = {};
+      parts.forEach(part => {
+        map[part.type] = part.value;
+      });
+
+      return new Date(
+        Number(map.year),
+        Number(map.month) - 1,
+        Number(map.day)
+      );
+    }
+    function getTaipeiTodayDisplayText() {
+      const today = getTaipeiTodayDateObject();
+      const weekNames = ['週日', '週一', '週二', '週三', '週四', '週五', '週六'];
+
+      return today.getFullYear() + '/' +
+        String(today.getMonth() + 1).padStart(2, '0') + '/' +
+        String(today.getDate()).padStart(2, '0') +
+        '（' + weekNames[today.getDay()] + '）';
+    }
+    function getPreviousWeekStartValue() {
+      const today = getTaipeiTodayDateObject();
+      const currentWeekMonday = new Date(today);
+      const day = currentWeekMonday.getDay();
+      const diffToMonday = day === 0 ? -6 : 1 - day;
+
+      currentWeekMonday.setDate(currentWeekMonday.getDate() + diffToMonday);
+
+      const previousWeekMonday = new Date(currentWeekMonday);
+      previousWeekMonday.setDate(previousWeekMonday.getDate() - 7);
+
+      return formatDateInputValue(previousWeekMonday);
+    }
+    function formatDateInputValue(date) {
+      return date.getFullYear() + '-' +
+        String(date.getMonth() + 1).padStart(2, '0') + '-' +
+        String(date.getDate()).padStart(2, '0');
     }
     function renderWeekOptions() {
       const select = document.getElementById('weekPicker');
