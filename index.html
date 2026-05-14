@@ -1168,6 +1168,10 @@
     const FALLBACK_SEASONS = ['春季', '秋季'];
     const FALLBACK_GENDERS = ['弟兄', '姊妹'];
 
+    const INITIAL_CACHE_KEY = 'exercisebook_initial_data_v4';
+    const WEEK_CACHE_PREFIX = 'exercisebook_week_data_v4_';
+    const CACHE_MAX_AGE_MS = 10 * 60 * 1000;
+
     const TABLE_COLUMNS = [
       { key: 'name', label: '姓名', fixed: true },
       { key: 'gender', label: '性別', fixed: false },
@@ -1266,16 +1270,87 @@
     }
 
     async function init() {
-      showLoading(true);
+      showLoading(false);
+
+      renderAll();
+
+      const cached = loadInitialDataCache();
+      if (cached) {
+        applyServerState(cached);
+        renderAll();
+      } else {
+        renderMembersLoading('資料載入中，請稍候');
+      }
+
       try {
+        const startedAt = performance.now();
         const res = await api('getInitialData', {});
+        const endedAt = performance.now();
+
+        console.log('getInitialData total ms:', Math.round(endedAt - startedAt));
+        console.log('backend elapsedMs:', res.elapsedMs || 'no elapsedMs');
+
+        saveInitialDataCache(res);
+        if (res && res.week && res.week.start) {
+          saveWeekDataCache(toInputDateValue(res.week.start), res);
+        }
+
         applyServerState(res);
         renderAll();
       } catch (err) {
         showNotice(err.message || '載入失敗', true);
-        renderAll();
-      } finally {
-        showLoading(false);
+
+        if (!state.members.length) {
+          renderMembersLoading('資料載入失敗，請重新整理頁面');
+        }
+      }
+    }
+
+    function saveInitialDataCache(data) {
+      saveLocalCache(INITIAL_CACHE_KEY, data);
+    }
+
+    function loadInitialDataCache() {
+      return loadLocalCache(INITIAL_CACHE_KEY);
+    }
+
+    function makeWeekCacheKey(weekStartValue) {
+      return WEEK_CACHE_PREFIX + String(weekStartValue || '').trim();
+    }
+
+    function saveWeekDataCache(weekStartValue, data) {
+      if (!weekStartValue) return;
+      saveLocalCache(makeWeekCacheKey(weekStartValue), data);
+    }
+
+    function loadWeekDataCache(weekStartValue) {
+      if (!weekStartValue) return null;
+      return loadLocalCache(makeWeekCacheKey(weekStartValue));
+    }
+
+    function saveLocalCache(key, data) {
+      try {
+        localStorage.setItem(key, JSON.stringify({
+          savedAt: Date.now(),
+          data: data
+        }));
+      } catch (err) {}
+    }
+
+    function loadLocalCache(key) {
+      try {
+        const raw = localStorage.getItem(key);
+        if (!raw) return null;
+
+        const parsed = JSON.parse(raw);
+        if (!parsed || !parsed.data) return null;
+
+        const age = Date.now() - Number(parsed.savedAt || 0);
+        if (age > CACHE_MAX_AGE_MS) return null;
+
+        return parsed.data;
+      } catch (err) {
+        return null;
       }
     }
 
@@ -1358,15 +1433,27 @@
       const value = document.getElementById('weekPicker').value;
       if (!value) return;
 
-      showLoading(true);
+      const cached = loadWeekDataCache(value);
+      if (cached) {
+        applyServerState(cached);
+        renderAll();
+      } else {
+        renderMembersLoading('週次資料載入中');
+      }
+
       try {
+        const startedAt = performance.now();
         const res = await api('getWeekByStartDate', { weekStart: value });
+        const endedAt = performance.now();
+
+        console.log('getWeekByStartDate total ms:', Math.round(endedAt - startedAt));
+        console.log('backend elapsedMs:', res.elapsedMs || 'no elapsedMs');
+
+        saveWeekDataCache(value, res);
         applyServerState(res);
         renderAll();
       } catch (err) {
         showNotice(err.message || '週次切換失敗', true);
-      } finally {
-        showLoading(false);
       }
     }
 
@@ -1649,6 +1736,13 @@
         values.map(v => '<option value="' + escapeAttr(v) + '">' + escapeHtml(v) + '</option>').join('');
 
       if (current && values.includes(current)) select.value = current;
+    }
+
+    function renderMembersLoading(text) {
+      const box = document.getElementById('membersList');
+      if (!box) return;
+
+      box.innerHTML = '<div class="empty">' + escapeHtml(text || '資料載入中') + '</div>';
     }
 
     function renderMembers() {
@@ -1935,6 +2029,7 @@
         showNotice(res.message || '設定已儲存');
         state.periodSettings = Array.isArray(res.settings) ? res.settings : [];
         state.searchOptionsLoaded = false;
+        localStorage.removeItem(INITIAL_CACHE_KEY);
         renderPeriodSettings();
         renderExcludeWeekList();
       } catch (err) {
@@ -2030,6 +2125,8 @@
 
         showNotice(res.message || '成員已新增');
         applyServerState(res);
+
+        localStorage.removeItem(INITIAL_CACHE_KEY);
 
         const box = document.getElementById('newMembersBox');
         box.innerHTML = '';
@@ -2144,6 +2241,9 @@
 
         showNotice(res.message || '成員資料已更新');
         applyServerState(res);
+
+        localStorage.removeItem(INITIAL_CACHE_KEY);
+
         state.searchOptionsLoaded = false;
         renderAll();
       } catch (err) {
@@ -2195,6 +2295,21 @@
             if (!state.submittedKeys.includes(key)) state.submittedKeys.push(key);
           });
         }
+
+        if (state.week && state.week.start) {
+          const weekStartValue = toInputDateValue(state.week.start);
+          saveWeekDataCache(weekStartValue, {
+            year: state.year,
+            season: state.season,
+            week: state.week,
+            weekOptions: state.weekOptions,
+            members: state.members,
+            submittedKeys: state.submittedKeys,
+            searchOptions: state.searchOptions
+          });
+        }
+
+        localStorage.removeItem(INITIAL_CACHE_KEY);
 
         state.searchOptionsLoaded = false;
         renderMembers();
