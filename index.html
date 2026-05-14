@@ -98,28 +98,6 @@
       transform: rotate(38deg);
     }
 
-    .top-actions {
-      position: static;
-      z-index: 4;
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-      margin-top: 18px;
-    }
-
-    .top-btn {
-      border: 1px solid var(--line-strong);
-      color: var(--cream);
-      background: rgba(255,255,255,0.075);
-      border-radius: 999px;
-      padding: 10px 16px;
-      font-weight: 900;
-      cursor: pointer;
-      letter-spacing: 0.08em;
-      backdrop-filter: blur(10px);
-    }
-
     .hero-inner {
       position: relative;
       z-index: 2;
@@ -157,6 +135,28 @@
       letter-spacing: 0.08em;
       font-weight: 950;
       text-shadow: 0 12px 36px rgba(0,0,0,0.22);
+    }
+
+    .top-actions {
+      position: static;
+      z-index: 4;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      margin-top: 18px;
+    }
+
+    .top-btn {
+      border: 1px solid var(--line-strong);
+      color: var(--cream);
+      background: rgba(255,255,255,0.075);
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-weight: 900;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      backdrop-filter: blur(10px);
     }
 
     .hero-mark {
@@ -277,15 +277,6 @@
       word-break: break-word;
     }
 
-    .week-meta {
-      padding: 13px;
-      overflow: visible;
-    }
-
-    .week-meta-inner {
-      padding: 0;
-    }
-
     .week-select-shell {
       position: relative;
       margin-top: 8px;
@@ -317,11 +308,6 @@
       appearance: none;
       -webkit-appearance: none;
       -moz-appearance: none;
-    }
-
-    .week-select-shell select:focus {
-      outline: none;
-      box-shadow: none;
     }
 
     .week-select-action {
@@ -847,14 +833,6 @@
         display: none;
       }
 
-      .top-actions {
-        margin-top: 18px;
-      }
-
-      .top-btn {
-        width: auto;
-      }
-
       h1 {
         font-size: 32px;
         line-height: 1.25;
@@ -969,6 +947,7 @@
       </div>
 
       <div class="section-title">設定年度與季度的統計起迄日期</div>
+
       <div class="row">
         <div>
           <label for="settingYear">年度</label>
@@ -1053,17 +1032,15 @@
             <div id="todayDateText" class="meta-value">讀取中</div>
           </div>
 
-          <div class="meta-item week-meta">
-            <div class="week-meta-inner">
-              <div class="meta-label">登記週次</div>
-              <div class="week-select-shell">
-                <select id="weekPicker" onchange="changeWeek()">
-                  <option value="">載入中</option>
-                </select>
-                <div class="week-select-action">
-                  <small>切換</small>
-                  <strong>▼</strong>
-                </div>
+          <div class="meta-item">
+            <div class="meta-label">登記週次</div>
+            <div class="week-select-shell">
+              <select id="weekPicker" onchange="changeWeek()">
+                <option value="">載入中</option>
+              </select>
+              <div class="week-select-action">
+                <small>切換</small>
+                <strong>▼</strong>
               </div>
             </div>
           </div>
@@ -1185,10 +1162,12 @@
   <script>
     const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw-TQT8iaQnfvRUmrg3LiEHdEeliwY4kpkENF2Nw2iZl9C9wQSSpW2JM73ige87DmFj/exec';
     const MANAGER_PASSWORD = '2834';
+
     const FALLBACK_SPECIALTIES = ['兒青', '大學', '中學', '兒童', '青職', '無'];
     const FALLBACK_CARE_AREAS = ['東', '西', '中', '南A', '南B', '北', '無', '屏'];
     const FALLBACK_SEASONS = ['春季', '秋季'];
     const FALLBACK_GENDERS = ['弟兄', '姊妹'];
+
     const TABLE_COLUMNS = [
       { key: 'name', label: '姓名', fixed: true },
       { key: 'gender', label: '性別', fixed: false },
@@ -1279,9 +1258,7 @@
         function cleanup() {
           clearTimeout(timer);
           delete window[callbackName];
-          if (script.parentNode) {
-            script.parentNode.removeChild(script);
-          }
+          if (script.parentNode) script.parentNode.removeChild(script);
         }
 
         document.body.appendChild(script);
@@ -1304,6 +1281,7 @@
 
     function applyServerState(res) {
       if (!res) return;
+
       state.year = res.year || state.year;
       state.season = res.season || state.season;
       state.week = res.week || state.week;
@@ -1312,17 +1290,13 @@
       state.allMembers = Array.isArray(res.allMembers) ? sortMembers(res.allMembers) : state.allMembers;
       state.submittedKeys = Array.isArray(res.submittedKeys) ? res.submittedKeys : state.submittedKeys;
 
-      if (res.searchOptions) {
-        state.searchOptions = normalizeSearchOptions(res.searchOptions);
-      }
-
-      if (Array.isArray(res.settings)) {
-        state.periodSettings = res.settings;
-      }
+      if (res.searchOptions) state.searchOptions = normalizeSearchOptions(res.searchOptions);
+      if (Array.isArray(res.settings)) state.periodSettings = res.settings;
     }
 
     function normalizeSearchOptions(options) {
       const o = options || {};
+
       return {
         years: Array.isArray(o.years) ? o.years : [],
         seasons: Array.isArray(o.seasons) && o.seasons.length ? o.seasons : FALLBACK_SEASONS,
@@ -1350,14 +1324,13 @@
 
     async function switchTab(tab) {
       const isReport = tab === 'report';
+
       document.getElementById('reportPage').classList.toggle('hidden', !isReport);
       document.getElementById('searchPage').classList.toggle('hidden', isReport);
       document.getElementById('tabReport').classList.toggle('active', isReport);
       document.getElementById('tabSearch').classList.toggle('active', !isReport);
 
-      if (!isReport && !state.searchOptionsLoaded) {
-        await loadSearchOptions();
-      }
+      if (!isReport && !state.searchOptionsLoaded) await loadSearchOptions();
 
       if (!isReport) {
         renderColumnToggles();
@@ -1400,30 +1373,7 @@
     function renderMeta() {
       document.getElementById('currentYear').textContent = state.year || '';
       document.getElementById('currentSeason').textContent = state.season || '';
-
-      const todayBox = document.getElementById('todayDateText');
-      if (todayBox) {
-        todayBox.textContent = getTaipeiTodayDisplayText();
-      }
-    }
-
-    async function applyPreviousWeekAsDefault() {
-      const targetWeekStart = getPreviousWeekStartValue();
-      if (!targetWeekStart) return;
-
-      const options = Array.isArray(state.weekOptions) ? state.weekOptions : [];
-      const matched = options.some(item => item.value === targetWeekStart);
-
-      if (!matched) return;
-
-      const currentStart = state.week ? toInputDateValue(state.week.start) : '';
-      if (currentStart === targetWeekStart) return;
-
-      const res = await api('getWeekByStartDate', {
-        weekStart: targetWeekStart
-      });
-
-      applyServerState(res);
+      document.getElementById('todayDateText').textContent = getTaipeiTodayDisplayText();
     }
 
     function getTaipeiTodayDateObject() {
@@ -1456,27 +1406,6 @@
         '（' + weekNames[today.getDay()] + '）';
     }
 
-    function getPreviousWeekStartValue() {
-      const today = getTaipeiTodayDateObject();
-
-      const currentWeekMonday = new Date(today);
-      const day = currentWeekMonday.getDay();
-      const diffToMonday = day === 0 ? -6 : 1 - day;
-
-      currentWeekMonday.setDate(currentWeekMonday.getDate() + diffToMonday);
-
-      const previousWeekMonday = new Date(currentWeekMonday);
-      previousWeekMonday.setDate(previousWeekMonday.getDate() - 7);
-
-      return formatDateInputValue(previousWeekMonday);
-    }
-
-    function formatDateInputValue(date) {
-      return date.getFullYear() + '-' +
-        String(date.getMonth() + 1).padStart(2, '0') + '-' +
-        String(date.getDate()).padStart(2, '0');
-    }
-
     function renderWeekOptions() {
       const select = document.getElementById('weekPicker');
       if (!select) return;
@@ -1498,10 +1427,10 @@
     function toInputDateValue(sheetDateText) {
       const parts = String(sheetDateText || '').split('/');
       if (parts.length !== 3) return '';
-      const y = parts[0];
-      const m = String(parts[1]).padStart(2, '0');
-      const d = String(parts[2]).padStart(2, '0');
-      return y + '-' + m + '-' + d;
+
+      return parts[0] + '-' +
+        String(parts[1]).padStart(2, '0') + '-' +
+        String(parts[2]).padStart(2, '0');
     }
 
     function makeSubmissionKey(name, gender, specialty, careArea) {
@@ -1542,13 +1471,14 @@
     function uniqueValues(values) {
       const seen = {};
       const output = [];
+
       values.forEach(value => {
         const text = String(value || '').trim();
-        if (!text) return;
-        if (seen[text]) return;
+        if (!text || seen[text]) return;
         seen[text] = true;
         output.push(text);
       });
+
       return output;
     }
 
@@ -1579,18 +1509,14 @@
       const column = TABLE_COLUMNS.find(col => col.key === key);
       if (!column) return;
 
-      if (column.fixed) {
-        state.visibleColumns[key] = true;
-      } else {
-        state.visibleColumns[key] = !!checked;
-      }
-
+      state.visibleColumns[key] = column.fixed ? true : !!checked;
       applyColumnVisibility();
     }
 
     function applyColumnVisibility() {
       TABLE_COLUMNS.forEach(col => {
         const visible = col.fixed ? true : !!state.visibleColumns[col.key];
+
         document.querySelectorAll('[data-col="' + col.key + '"]').forEach(el => {
           el.classList.toggle('col-hidden', !visible);
         });
@@ -1601,32 +1527,28 @@
       const box = document.getElementById('newMembersBox');
       if (!box) return;
 
-      if (!box.children.length) {
-        box.appendChild(createMemberInputRow());
-      }
+      if (!box.children.length) box.appendChild(createMemberInputRow());
 
       Array.from(box.querySelectorAll('.new-specialty')).forEach(select => {
         const current = select.value;
         const values = getSpecialtyOptions();
+
         select.innerHTML =
           '<option value="">請選擇</option>' +
           values.map(v => '<option value="' + escapeAttr(v) + '">' + escapeHtml(v) + '</option>').join('');
 
-        if (current && values.includes(current)) {
-          select.value = current;
-        }
+        if (current && values.includes(current)) select.value = current;
       });
 
       Array.from(box.querySelectorAll('.new-care-area')).forEach(select => {
         const current = select.value;
         const values = getCareAreaOptions();
+
         select.innerHTML =
           '<option value="">請選擇</option>' +
           values.map(v => '<option value="' + escapeAttr(v) + '">' + escapeHtml(v) + '</option>').join('');
 
-        if (current && values.includes(current)) {
-          select.value = current;
-        }
+        if (current && values.includes(current)) select.value = current;
       });
     }
 
@@ -1684,14 +1606,13 @@
 
     function removeMemberInputRow() {
       const box = document.getElementById('newMembersBox');
-      if (box.children.length > 1) {
-        box.removeChild(box.lastElementChild);
-      }
+      if (box.children.length > 1) box.removeChild(box.lastElementChild);
     }
 
     function removeSpecificMemberInputRow(button) {
       const box = document.getElementById('newMembersBox');
       if (box.children.length <= 1) return;
+
       const row = button.closest('.add-member-row');
       if (row) row.remove();
     }
@@ -1727,13 +1648,12 @@
         '<option value="">' + escapeHtml(firstLabel || '全部') + '</option>' +
         values.map(v => '<option value="' + escapeAttr(v) + '">' + escapeHtml(v) + '</option>').join('');
 
-      if (current && values.includes(current)) {
-        select.value = current;
-      }
+      if (current && values.includes(current)) select.value = current;
     }
 
     function renderMembers() {
       const box = document.getElementById('membersList');
+      if (!box) return;
 
       if (!state.members.length) {
         box.innerHTML = '<div class="empty">目前沒有可回報的啟用成員</div>';
@@ -1779,6 +1699,7 @@
 
     async function openMemberManager() {
       const input = prompt('請輸入成員清單密碼');
+
       if (input !== MANAGER_PASSWORD) {
         showNotice('密碼錯誤', true);
         return;
@@ -1808,6 +1729,7 @@
 
     async function openSettingManager() {
       const input = prompt('請輸入設定密碼');
+
       if (input !== MANAGER_PASSWORD) {
         showNotice('密碼錯誤', true);
         return;
@@ -1927,6 +1849,7 @@
 
       box.innerHTML = weeks.map(w => {
         const checked = excludedSet[w.fullLabel] ? 'checked' : '';
+
         return '' +
           '<label class="member" style="cursor:pointer;">' +
             '<input type="checkbox" class="exclude-week-check" value="' + escapeAttr(w.fullLabel) + '" ' + checked + '>' +
@@ -1941,9 +1864,8 @@
     function buildWeekOptionsByDateRange(startDateText, endDateText) {
       const start = new Date(startDateText + 'T00:00:00');
       const end = new Date(endDateText + 'T00:00:00');
-      if (isNaN(start.getTime()) || isNaN(end.getTime()) || start > end) {
-        return [];
-      }
+
+      if (isNaN(start.getTime()) || isNaN(end.getTime()) || start > end) return [];
 
       const cursor = new Date(start);
       const day = cursor.getDay();
@@ -1951,6 +1873,7 @@
       cursor.setDate(cursor.getDate() + diffToMonday);
 
       const weeks = [];
+
       while (cursor <= end) {
         const weekStart = new Date(cursor);
         const weekEnd = new Date(cursor);
@@ -1961,6 +1884,7 @@
           const endFull = formatDateSlash(weekEnd);
           const startShort = formatDateShort(weekStart);
           const endShort = formatDateShort(weekEnd);
+
           weeks.push({
             fullLabel: startFull + '-' + endFull,
             shortLabel: startShort + '-' + endShort
@@ -2031,6 +1955,7 @@
 
       box.innerHTML = state.periodSettings.map(s => {
         const excludedCount = Array.isArray(s.excludedWeeks) ? s.excludedWeeks.length : 0;
+
         return '' +
           '<div class="setting-row">' +
             '<div>' +
@@ -2071,6 +1996,7 @@
       }
 
       const rows = Array.from(document.querySelectorAll('#newMembersBox .add-member-row'));
+
       const members = rows.map(row => ({
         name: row.querySelector('.new-name').value.trim(),
         gender: row.querySelector('.new-gender').value,
@@ -2084,7 +2010,10 @@
         return;
       }
 
-      const invalidIndex = members.findIndex(m => !m.name || !m.gender || !m.specialty || !m.careArea || !m.checker);
+      const invalidIndex = members.findIndex(m =>
+        !m.name || !m.gender || !m.specialty || !m.careArea || !m.checker
+      );
+
       if (invalidIndex >= 0) {
         showNotice('第 ' + (invalidIndex + 1) + ' 位成員資料未填完整', true);
         return;
@@ -2098,11 +2027,14 @@
           season: state.season,
           members: members
         });
+
         showNotice(res.message || '成員已新增');
         applyServerState(res);
+
         const box = document.getElementById('newMembersBox');
         box.innerHTML = '';
         box.appendChild(createMemberInputRow());
+
         state.searchOptionsLoaded = false;
         renderAll();
       } catch (err) {
@@ -2123,13 +2055,8 @@
 
       let members = Array.isArray(state.allMembers) ? sortMembers(state.allMembers) : [];
 
-      if (status !== '全部') {
-        members = members.filter(m => m.active === status);
-      }
-
-      if (keyword) {
-        members = members.filter(m => String(m.name || '').includes(keyword));
-      }
+      if (status !== '全部') members = members.filter(m => m.active === status);
+      if (keyword) members = members.filter(m => String(m.name || '').includes(keyword));
 
       if (!members.length) {
         box.innerHTML = '<div class="empty">沒有符合條件的成員</div>';
@@ -2141,6 +2068,7 @@
 
       box.innerHTML = members.map(m => {
         const safeId = escapeAttr(m.id);
+
         return '' +
           '<div class="member-edit-row">' +
             '<div>' +
@@ -2213,6 +2141,7 @@
           checker: checker,
           active: active
         });
+
         showNotice(res.message || '成員資料已更新');
         applyServerState(res);
         state.searchOptionsLoaded = false;
@@ -2262,9 +2191,8 @@
               el.dataset.specialty,
               el.dataset.careArea
             );
-            if (!state.submittedKeys.includes(key)) {
-              state.submittedKeys.push(key);
-            }
+
+            if (!state.submittedKeys.includes(key)) state.submittedKeys.push(key);
           });
         }
 
@@ -2362,10 +2290,12 @@
       document.getElementById('filterSpecialty').value = '';
       document.getElementById('filterCareArea').value = '';
       document.getElementById('filterChecker').value = '';
+
       document.getElementById('overallBox').classList.add('hidden');
       document.getElementById('resultSummary').textContent = '尚未查詢';
       document.getElementById('resultBody').innerHTML =
         '<tr><td colspan="10" class="empty">請選擇條件後查詢</td></tr>';
+
       applyColumnVisibility();
     }
 
@@ -2398,9 +2328,11 @@
 
     function showNotice(message, isError) {
       const box = document.getElementById('notice');
+
       box.textContent = message;
       box.classList.toggle('error', !!isError);
       box.style.display = 'block';
+
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
       clearTimeout(window.__noticeTimer);
