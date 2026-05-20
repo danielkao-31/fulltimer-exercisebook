@@ -23,9 +23,7 @@
       --radius: 24px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -74,7 +72,6 @@
     }
 
     .hero {
-      min-height: 210px;
       border: 1px solid var(--line);
       border-radius: 34px;
       padding: 32px 30px;
@@ -87,17 +84,6 @@
       margin-bottom: 20px;
     }
 
-    .hero::before {
-      content: "";
-      position: absolute;
-      right: 7%;
-      top: -50px;
-      width: 190px;
-      height: 320px;
-      border: 1px solid rgba(243,237,212,0.14);
-      transform: rotate(38deg);
-    }
-
     .hero-inner {
       position: relative;
       z-index: 2;
@@ -105,7 +91,6 @@
       grid-template-columns: 1fr auto;
       gap: 24px;
       align-items: center;
-      padding-top: 22px;
     }
 
     .kicker {
@@ -138,8 +123,6 @@
     }
 
     .top-actions {
-      position: static;
-      z-index: 4;
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
@@ -285,9 +268,6 @@
       background:
         linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)),
         linear-gradient(135deg, rgba(197,169,91,0.10), rgba(197,169,91,0.04));
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.06),
-        0 10px 26px rgba(0,0,0,0.12);
       overflow: hidden;
     }
 
@@ -306,8 +286,6 @@
       border-radius: 0;
       cursor: pointer;
       appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
     }
 
     .week-select-action {
@@ -361,14 +339,8 @@
       outline: none;
     }
 
-    input::placeholder {
-      color: rgba(243,237,212,0.42);
-    }
-
-    select option {
-      background: #243018;
-      color: var(--cream);
-    }
+    input::placeholder { color: rgba(243,237,212,0.42); }
+    select option { background: #243018; color: var(--cream); }
 
     input:focus,
     select:focus {
@@ -391,7 +363,9 @@
       letter-spacing: 0.08em;
     }
 
-    .members {
+    .members,
+    .member-edit-list,
+    .setting-list {
       display: grid;
       gap: 10px;
     }
@@ -410,8 +384,7 @@
 
     .member.submitted {
       border-color: rgba(199, 240, 162, 0.72);
-      background:
-        linear-gradient(135deg, rgba(199,240,162,0.18), rgba(255,255,255,0.04));
+      background: linear-gradient(135deg, rgba(199,240,162,0.18), rgba(255,255,255,0.04));
     }
 
     .member.submitted::before {
@@ -497,9 +470,7 @@
       background: rgba(217,108,95,0.13);
     }
 
-    .hidden {
-      display: none !important;
-    }
+    .hidden { display: none !important; }
 
     .empty {
       border: 1px dashed var(--line);
@@ -589,9 +560,7 @@
       flex: 0 0 auto;
     }
 
-    .col-hidden {
-      display: none !important;
-    }
+    .col-hidden { display: none !important; }
 
     .table-wrap {
       margin-top: 16px;
@@ -622,9 +591,7 @@
       font-weight: 950;
     }
 
-    td {
-      color: var(--cream);
-    }
+    td { color: var(--cream); }
 
     .missing-weeks {
       white-space: normal;
@@ -634,20 +601,9 @@
       text-align: center;
     }
 
-    .rate-good {
-      color: #d9f5bd;
-      font-weight: 950;
-    }
-
-    .rate-mid {
-      color: #ffe7a3;
-      font-weight: 950;
-    }
-
-    .rate-bad {
-      color: #ffd6d0;
-      font-weight: 950;
-    }
+    .rate-good { color: #d9f5bd; font-weight: 950; }
+    .rate-mid { color: #ffe7a3; font-weight: 950; }
+    .rate-bad { color: #ffd6d0; font-weight: 950; }
 
     .loading-cover {
       position: fixed;
@@ -679,11 +635,7 @@
       animation: spin 0.9s linear infinite;
     }
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .modal-cover {
       position: fixed;
@@ -763,12 +715,6 @@
       margin-bottom: 12px;
     }
 
-    .member-edit-list,
-    .setting-list {
-      display: grid;
-      gap: 10px;
-    }
-
     .member-edit-row {
       display: grid;
       grid-template-columns: 1.1fr .8fr .8fr 1fr .75fr auto;
@@ -820,7 +766,6 @@
       }
 
       .hero {
-        min-height: auto;
         padding: 24px 20px;
         border-radius: 26px;
       }
@@ -885,9 +830,7 @@
     }
 
     @media (max-width: 520px) {
-      .column-toggle-grid {
-        grid-template-columns: 1fr;
-      }
+      .column-toggle-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -971,9 +914,7 @@
       </div>
 
       <div class="section-title">排除週次</div>
-      <div class="empty" style="text-align:left;">
-        勾選後，該週不列入應繳週數、未繳週次與繳交率計算。
-      </div>
+      <div class="empty" style="text-align:left;">勾選後，該週不列入應繳週數、未繳週次與繳交率計算。</div>
 
       <div id="excludeWeekList" class="members" style="margin-top:12px;">
         <div class="empty">請先選擇年度、季度與統計起迄日期</div>
@@ -999,9 +940,7 @@
             <button class="top-btn" onclick="openMemberManager()">成員清單</button>
           </div>
         </div>
-        <div class="hero-mark">
-          <span>記錄</span>
-        </div>
+        <div class="hero-mark"><span>記錄</span></div>
       </div>
     </section>
 
@@ -1149,9 +1088,7 @@
               </tr>
             </thead>
             <tbody id="resultBody">
-              <tr>
-                <td colspan="10" class="empty">請選擇條件後查詢</td>
-              </tr>
+              <tr><td colspan="10" class="empty">請選擇條件後查詢</td></tr>
             </tbody>
           </table>
         </div>
@@ -1168,8 +1105,8 @@
     const FALLBACK_SEASONS = ['春季', '秋季'];
     const FALLBACK_GENDERS = ['弟兄', '姊妹'];
 
-    const INITIAL_CACHE_KEY = 'exercisebook_initial_data_v4';
-    const WEEK_CACHE_PREFIX = 'exercisebook_week_data_v4_';
+    const INITIAL_CACHE_KEY = 'exercisebook_initial_data_v7_split';
+    const WEEK_CACHE_PREFIX = 'exercisebook_week_data_v7_split_';
     const CACHE_MAX_AGE_MS = 6 * 60 * 60 * 1000;
 
     const TABLE_COLUMNS = [
@@ -1247,10 +1184,12 @@
 
         window[callbackName] = function(res) {
           cleanup();
+
           if (!res || res.success === false) {
             reject(new Error(res && res.message ? res.message : '操作失敗'));
             return;
           }
+
           resolve(res);
         };
 
@@ -1272,22 +1211,52 @@
     async function init() {
       showLoading(false);
 
-      renderAll();
+      applyClientShellState();
+      renderReportOnly();
+      renderSearchOptions();
+      renderColumnToggles();
+      applyColumnVisibility();
+      renderNewMemberRows();
+      renderCheckerDatalist();
 
-      const cached = loadInitialDataCache();
+      const currentWeekStart = state.week ? toInputDateValue(state.week.start) : '';
+      const cached = loadWeekDataCache(currentWeekStart) || loadInitialDataCache();
+
       if (cached) {
         applyServerState(cached);
-        renderAll();
+        renderReportOnly();
+        renderNewMemberRows();
+        renderCheckerDatalist();
       } else {
-        renderMembersLoading('資料載入中，請稍候');
+        renderMembersLoading('名單載入中');
       }
+
+      await loadReportData(currentWeekStart, { silent: !!cached });
+    }
+
+    function applyClientShellState() {
+      const defaultDate = getPreviousWeekMondayClient(new Date());
+      const year = defaultDate.getFullYear();
+
+      state.year = year;
+      state.season = getSeasonClient(defaultDate);
+      state.week = getWeekRangeClient(defaultDate);
+      state.weekOptions = buildWeekOptionsClient(year);
+      state.members = [];
+      state.submittedKeys = [];
+    }
+
+    async function loadReportData(weekStartValue, options = {}) {
+      const silent = !!options.silent;
+
+      if (!silent) renderMembersLoading('名單載入中');
 
       try {
         const startedAt = performance.now();
-        const res = await api('getInitialData', {});
+        const res = await api('getReportData', { weekStart: weekStartValue || '' });
         const endedAt = performance.now();
 
-        console.log('getInitialData total ms:', Math.round(endedAt - startedAt));
+        console.log('getReportData total ms:', Math.round(endedAt - startedAt));
         console.log('backend elapsedMs:', res.elapsedMs || 'no elapsedMs');
 
         saveInitialDataCache(res);
@@ -1296,7 +1265,9 @@
         }
 
         applyServerState(res);
-        renderAll();
+        renderReportOnly();
+        renderNewMemberRows();
+        renderCheckerDatalist();
       } catch (err) {
         showNotice(err.message || '載入失敗', true);
 
@@ -1354,6 +1325,20 @@
       }
     }
 
+    function clearReportLocalCaches() {
+      try {
+        localStorage.removeItem(INITIAL_CACHE_KEY);
+
+        const removeKeys = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.indexOf(WEEK_CACHE_PREFIX) === 0) removeKeys.push(key);
+        }
+
+        removeKeys.forEach(key => localStorage.removeItem(key));
+      } catch (err) {}
+    }
+
     function applyServerState(res) {
       if (!res) return;
 
@@ -1384,17 +1369,27 @@
       };
     }
 
-    function renderAll() {
+    function renderReportOnly() {
       renderMeta();
       renderWeekOptions();
       renderMembers();
+    }
+
+    function renderAll() {
+      renderReportOnly();
       renderSearchOptions();
       renderColumnToggles();
       applyColumnVisibility();
       renderNewMemberRows();
       renderCheckerDatalist();
-      renderMemberManagerList();
-      renderPeriodSettings();
+
+      if (document.getElementById('memberModalCover').style.display === 'flex') {
+        renderMemberManagerList();
+      }
+
+      if (document.getElementById('settingModalCover').style.display === 'flex') {
+        renderPeriodSettings();
+      }
     }
 
     async function switchTab(tab) {
@@ -1415,12 +1410,16 @@
 
     async function loadSearchOptions() {
       showLoading(true);
+
       try {
         const res = await api('getSearchOptions', {});
+
         if (res.searchOptions) {
           state.searchOptions = normalizeSearchOptions(res.searchOptions);
           state.searchOptionsLoaded = true;
           renderSearchOptions();
+          renderNewMemberRows();
+          renderCheckerDatalist();
         }
       } catch (err) {
         showNotice(err.message || '調閱選單載入失敗', true);
@@ -1433,28 +1432,33 @@
       const value = document.getElementById('weekPicker').value;
       if (!value) return;
 
+      const selectedWeek = getWeekOptionByValue(value);
+
+      if (selectedWeek) {
+        const date = new Date(value + 'T00:00:00');
+        state.year = date.getFullYear();
+        state.season = getSeasonClient(date);
+        state.week = {
+          start: selectedWeek.start,
+          end: selectedWeek.end,
+          label: selectedWeek.fullLabel,
+          shortLabel: selectedWeek.shortLabel
+        };
+      }
+
       const cached = loadWeekDataCache(value);
+
       if (cached) {
         applyServerState(cached);
-        renderAll();
+        renderReportOnly();
       } else {
+        state.members = [];
+        state.submittedKeys = [];
+        renderReportOnly();
         renderMembersLoading('週次資料載入中');
       }
 
-      try {
-        const startedAt = performance.now();
-        const res = await api('getWeekByStartDate', { weekStart: value });
-        const endedAt = performance.now();
-
-        console.log('getWeekByStartDate total ms:', Math.round(endedAt - startedAt));
-        console.log('backend elapsedMs:', res.elapsedMs || 'no elapsedMs');
-
-        saveWeekDataCache(value, res);
-        applyServerState(res);
-        renderAll();
-      } catch (err) {
-        showNotice(err.message || '週次切換失敗', true);
-      }
+      await loadReportData(value, { silent: !!cached });
     }
 
     function renderMeta() {
@@ -1472,15 +1476,9 @@
       }).formatToParts(new Date());
 
       const map = {};
-      parts.forEach(part => {
-        map[part.type] = part.value;
-      });
+      parts.forEach(part => map[part.type] = part.value);
 
-      return new Date(
-        Number(map.year),
-        Number(map.month) - 1,
-        Number(map.day)
-      );
+      return new Date(Number(map.year), Number(map.month) - 1, Number(map.day));
     }
 
     function getTaipeiTodayDisplayText() {
@@ -1511,22 +1509,55 @@
       }).join('');
     }
 
-    function toInputDateValue(sheetDateText) {
-      const parts = String(sheetDateText || '').split('/');
-      if (parts.length !== 3) return '';
+    function renderMembersLoading(text) {
+      const box = document.getElementById('membersList');
+      if (!box) return;
 
-      return parts[0] + '-' +
-        String(parts[1]).padStart(2, '0') + '-' +
-        String(parts[2]).padStart(2, '0');
+      box.innerHTML = '<div class="empty">' + escapeHtml(text || '資料載入中') + '</div>';
     }
 
-    function makeSubmissionKey(name, gender, specialty, careArea) {
-      return [
-        String(name || '').trim(),
-        String(gender || '').trim(),
-        String(specialty || '').trim(),
-        String(careArea || '').trim()
-      ].join('||');
+    function renderMembers() {
+      const box = document.getElementById('membersList');
+      if (!box) return;
+
+      if (!state.members.length) {
+        box.innerHTML = '<div class="empty">目前沒有可回報的啟用成員</div>';
+        return;
+      }
+
+      const submittedSet = {};
+      (state.submittedKeys || []).forEach(key => submittedSet[key] = true);
+
+      const members = sortMembers(state.members);
+
+      box.innerHTML = members.map(m => {
+        const key = makeSubmissionKey(m.name, m.gender, m.specialty, m.careArea);
+        const submitted = !!submittedSet[key];
+
+        return '' +
+          '<div class="member ' + (submitted ? 'submitted' : '') + '">' +
+            '<input ' +
+              'type="checkbox" ' +
+              'class="member-check" ' +
+              'data-name="' + escapeAttr(m.name) + '" ' +
+              'data-gender="' + escapeAttr(m.gender) + '" ' +
+              'data-specialty="' + escapeAttr(m.specialty) + '" ' +
+              'data-care-area="' + escapeAttr(m.careArea) + '" ' +
+              'data-checker="' + escapeAttr(m.checker) + '" ' +
+              (submitted ? 'checked disabled' : '') +
+            '>' +
+            '<div>' +
+              '<div class="member-main">' + escapeHtml(m.name) + '</div>' +
+              '<div class="member-sub">' +
+                escapeHtml(m.gender) + '｜' +
+                escapeHtml(m.specialty) + '｜' +
+                escapeHtml(m.careArea || '未填照顧區') + '｜檢核者：' +
+                escapeHtml(m.checker || '未設定') +
+              '</div>' +
+            '</div>' +
+            (submitted ? '<div class="submitted-badge">已回報</div>' : '') +
+          '</div>';
+      }).join('');
     }
 
     function getSpecialtyOptions() {
@@ -1738,59 +1769,6 @@
       if (current && values.includes(current)) select.value = current;
     }
 
-    function renderMembersLoading(text) {
-      const box = document.getElementById('membersList');
-      if (!box) return;
-
-      box.innerHTML = '<div class="empty">' + escapeHtml(text || '資料載入中') + '</div>';
-    }
-
-    function renderMembers() {
-      const box = document.getElementById('membersList');
-      if (!box) return;
-
-      if (!state.members.length) {
-        box.innerHTML = '<div class="empty">目前沒有可回報的啟用成員</div>';
-        return;
-      }
-
-      const submittedSet = {};
-      (state.submittedKeys || []).forEach(key => {
-        submittedSet[key] = true;
-      });
-
-      const members = sortMembers(state.members);
-
-      box.innerHTML = members.map(m => {
-        const key = makeSubmissionKey(m.name, m.gender, m.specialty, m.careArea);
-        const submitted = !!submittedSet[key];
-
-        return '' +
-          '<div class="member ' + (submitted ? 'submitted' : '') + '">' +
-            '<input ' +
-              'type="checkbox" ' +
-              'class="member-check" ' +
-              'data-name="' + escapeAttr(m.name) + '" ' +
-              'data-gender="' + escapeAttr(m.gender) + '" ' +
-              'data-specialty="' + escapeAttr(m.specialty) + '" ' +
-              'data-care-area="' + escapeAttr(m.careArea) + '" ' +
-              'data-checker="' + escapeAttr(m.checker) + '" ' +
-              (submitted ? 'checked disabled' : '') +
-            '>' +
-            '<div>' +
-              '<div class="member-main">' + escapeHtml(m.name) + '</div>' +
-              '<div class="member-sub">' +
-                escapeHtml(m.gender) + '｜' +
-                escapeHtml(m.specialty) + '｜' +
-                escapeHtml(m.careArea || '未填照顧區') + '｜檢核者：' +
-                escapeHtml(m.checker || '未設定') +
-              '</div>' +
-            '</div>' +
-            (submitted ? '<div class="submitted-badge">已回報</div>' : '') +
-          '</div>';
-      }).join('');
-    }
-
     async function openMemberManager() {
       const input = prompt('請輸入成員清單密碼');
 
@@ -1804,10 +1782,12 @@
       document.getElementById('memberManagerList').innerHTML = '<div class="empty">成員資料載入中...</div>';
 
       showLoading(true);
+
       try {
         const res = await api('getMemberManagerData', { password: managerPassword });
         applyServerState(res);
         renderAll();
+        renderMemberManagerList();
       } catch (err) {
         document.getElementById('memberManagerList').innerHTML =
           '<div class="empty">' + escapeHtml(err.message || '成員清單載入失敗') + '</div>';
@@ -1834,6 +1814,7 @@
       document.getElementById('settingList').innerHTML = '<div class="empty">設定資料載入中...</div>';
 
       showLoading(true);
+
       try {
         const res = await api('getPeriodSettings', { password: settingPassword });
         state.periodSettings = Array.isArray(res.settings) ? res.settings : [];
@@ -1930,9 +1911,7 @@
         ? currentSetting.excludedWeeks
         : [];
 
-      excludedWeeks.forEach(label => {
-        excludedSet[String(label).trim()] = true;
-      });
+      excludedWeeks.forEach(label => excludedSet[String(label).trim()] = true);
 
       const weeks = buildWeekOptionsByDateRange(startDate, endDate);
 
@@ -1955,57 +1934,10 @@
       }).join('');
     }
 
-    function buildWeekOptionsByDateRange(startDateText, endDateText) {
-      const start = new Date(startDateText + 'T00:00:00');
-      const end = new Date(endDateText + 'T00:00:00');
-
-      if (isNaN(start.getTime()) || isNaN(end.getTime()) || start > end) return [];
-
-      const cursor = new Date(start);
-      const day = cursor.getDay();
-      const diffToMonday = day === 0 ? -6 : 1 - day;
-      cursor.setDate(cursor.getDate() + diffToMonday);
-
-      const weeks = [];
-
-      while (cursor <= end) {
-        const weekStart = new Date(cursor);
-        const weekEnd = new Date(cursor);
-        weekEnd.setDate(weekEnd.getDate() + 6);
-
-        if (weekEnd >= start && weekStart <= end) {
-          const startFull = formatDateSlash(weekStart);
-          const endFull = formatDateSlash(weekEnd);
-          const startShort = formatDateShort(weekStart);
-          const endShort = formatDateShort(weekEnd);
-
-          weeks.push({
-            fullLabel: startFull + '-' + endFull,
-            shortLabel: startShort + '-' + endShort
-          });
-        }
-
-        cursor.setDate(cursor.getDate() + 7);
-      }
-
-      return weeks;
-    }
-
     function getSelectedExcludedWeeks() {
       return Array.from(document.querySelectorAll('.exclude-week-check:checked'))
         .map(el => String(el.value || '').trim())
         .filter(Boolean);
-    }
-
-    function formatDateSlash(date) {
-      const y = date.getFullYear();
-      const m = String(date.getMonth() + 1).padStart(2, '0');
-      const d = String(date.getDate()).padStart(2, '0');
-      return y + '/' + m + '/' + d;
-    }
-
-    function formatDateShort(date) {
-      return (date.getMonth() + 1) + '/' + date.getDate();
     }
 
     async function savePeriodSetting() {
@@ -2024,12 +1956,13 @@
       };
 
       showLoading(true);
+
       try {
         const res = await api('savePeriodSetting', payload);
         showNotice(res.message || '設定已儲存');
         state.periodSettings = Array.isArray(res.settings) ? res.settings : [];
         state.searchOptionsLoaded = false;
-        localStorage.removeItem(INITIAL_CACHE_KEY);
+        clearReportLocalCaches();
         renderPeriodSettings();
         renderExcludeWeekList();
       } catch (err) {
@@ -2115,6 +2048,7 @@
       }
 
       showLoading(true);
+
       try {
         const res = await api('addMembers', {
           password: managerPassword,
@@ -2125,8 +2059,7 @@
 
         showNotice(res.message || '成員已新增');
         applyServerState(res);
-
-        localStorage.removeItem(INITIAL_CACHE_KEY);
+        clearReportLocalCaches();
 
         const box = document.getElementById('newMembersBox');
         box.innerHTML = '';
@@ -2134,6 +2067,11 @@
 
         state.searchOptionsLoaded = false;
         renderAll();
+        renderMemberManagerList();
+
+        if (state.week) {
+          await loadReportData(toInputDateValue(state.week.start), { silent: true });
+        }
       } catch (err) {
         showNotice(err.message || '新增失敗', true);
       } finally {
@@ -2227,6 +2165,7 @@
       }
 
       showLoading(true);
+
       try {
         const res = await api('updateMember', {
           password: managerPassword,
@@ -2241,11 +2180,14 @@
 
         showNotice(res.message || '成員資料已更新');
         applyServerState(res);
-
-        localStorage.removeItem(INITIAL_CACHE_KEY);
-
+        clearReportLocalCaches();
         state.searchOptionsLoaded = false;
         renderAll();
+        renderMemberManagerList();
+
+        if (state.week) {
+          await loadReportData(toInputDateValue(state.week.start), { silent: true });
+        }
       } catch (err) {
         showNotice(err.message || '更新失敗', true);
       } finally {
@@ -2277,6 +2219,7 @@
       };
 
       showLoading(true);
+
       try {
         const res = await api('submitRecords', payload);
         showNotice(res.message || '回報完成');
@@ -2309,8 +2252,6 @@
           });
         }
 
-        localStorage.removeItem(INITIAL_CACHE_KEY);
-
         state.searchOptionsLoaded = false;
         renderMembers();
       } catch (err) {
@@ -2333,6 +2274,7 @@
       };
 
       showLoading(true);
+
       try {
         const res = await api('searchRecords', filters);
         renderResults(res);
@@ -2414,14 +2356,145 @@
       applyColumnVisibility();
     }
 
+    function getPreviousWeekMondayClient(date) {
+      const d = new Date(date);
+      const day = d.getDay();
+      const diffToMonday = day === 0 ? -6 : 1 - day;
+
+      const currentWeekMonday = new Date(d);
+      currentWeekMonday.setDate(d.getDate() + diffToMonday);
+
+      const previousWeekMonday = new Date(currentWeekMonday);
+      previousWeekMonday.setDate(currentWeekMonday.getDate() - 7);
+      previousWeekMonday.setHours(0, 0, 0, 0);
+
+      return previousWeekMonday;
+    }
+
+    function getWeekRangeClient(date) {
+      const d = new Date(date);
+      const day = d.getDay();
+      const diffToMonday = day === 0 ? -6 : 1 - day;
+
+      const start = new Date(d);
+      start.setDate(d.getDate() + diffToMonday);
+      start.setHours(0, 0, 0, 0);
+
+      const end = new Date(start);
+      end.setDate(start.getDate() + 6);
+
+      return {
+        start: formatDateSlash(start),
+        end: formatDateSlash(end),
+        label: formatDateSlash(start) + '-' + formatDateSlash(end),
+        shortLabel: formatDateShort(start) + '-' + formatDateShort(end)
+      };
+    }
+
+    function buildWeekOptionsClient(year) {
+      const options = [];
+      const start = new Date(Number(year), 0, 1);
+      const end = new Date(Number(year), 11, 31);
+      const firstWeek = getWeekRangeClient(start);
+      let cursor = parseSlashDate(firstWeek.start);
+
+      while (cursor <= end) {
+        const week = getWeekRangeClient(cursor);
+
+        options.push({
+          value: toInputDateValue(week.start),
+          label: week.shortLabel,
+          fullLabel: week.label,
+          shortLabel: week.shortLabel,
+          start: week.start,
+          end: week.end
+        });
+
+        cursor.setDate(cursor.getDate() + 7);
+      }
+
+      return options;
+    }
+
+    function buildWeekOptionsByDateRange(startDateText, endDateText) {
+      const start = new Date(startDateText + 'T00:00:00');
+      const end = new Date(endDateText + 'T00:00:00');
+
+      if (isNaN(start.getTime()) || isNaN(end.getTime()) || start > end) return [];
+
+      const cursor = new Date(start);
+      const day = cursor.getDay();
+      const diffToMonday = day === 0 ? -6 : 1 - day;
+      cursor.setDate(cursor.getDate() + diffToMonday);
+
+      const weeks = [];
+
+      while (cursor <= end) {
+        const weekStart = new Date(cursor);
+        const weekEnd = new Date(cursor);
+        weekEnd.setDate(weekEnd.getDate() + 6);
+
+        if (weekEnd >= start && weekStart <= end) {
+          weeks.push({
+            fullLabel: formatDateSlash(weekStart) + '-' + formatDateSlash(weekEnd),
+            shortLabel: formatDateShort(weekStart) + '-' + formatDateShort(weekEnd)
+          });
+        }
+
+        cursor.setDate(cursor.getDate() + 7);
+      }
+
+      return weeks;
+    }
+
+    function parseSlashDate(text) {
+      const parts = String(text || '').split('/');
+      return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+    }
+
+    function getSeasonClient(date) {
+      return date.getMonth() + 1 <= 6 ? '春季' : '秋季';
+    }
+
+    function getWeekOptionByValue(value) {
+      return (state.weekOptions || []).find(item => item.value === value) || null;
+    }
+
+    function toInputDateValue(sheetDateText) {
+      const parts = String(sheetDateText || '').split('/');
+      if (parts.length !== 3) return '';
+
+      return parts[0] + '-' +
+        String(parts[1]).padStart(2, '0') + '-' +
+        String(parts[2]).padStart(2, '0');
+    }
+
+    function formatDateSlash(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return y + '/' + m + '/' + d;
+    }
+
+    function formatDateShort(date) {
+      return (date.getMonth() + 1) + '/' + date.getDate();
+    }
+
+    function makeSubmissionKey(name, gender, specialty, careArea) {
+      return [
+        String(name || '').trim(),
+        String(gender || '').trim(),
+        String(specialty || '').trim(),
+        String(careArea || '').trim()
+      ].join('||');
+    }
+
     function sortMembers(members) {
-      return members.slice().sort((a, b) => {
-        return (
-          genderRank(a.gender) - genderRank(b.gender) ||
-          careAreaRank(a.careArea) - careAreaRank(b.careArea) ||
-          String(a.name || '').localeCompare(String(b.name || ''), 'zh-Hant')
-        );
-      });
+      return members.slice().sort((a, b) =>
+        genderRank(a.gender) - genderRank(b.gender) ||
+        careAreaRank(a.careArea) - careAreaRank(b.careArea) ||
+        String(a.name || '').localeCompare(String(b.name || ''), 'zh-Hant')
+      );
     }
 
     function genderRank(value) {
@@ -2436,9 +2509,10 @@
     }
 
     function sortCareAreas(values) {
-      return values.slice().sort((a, b) => {
-        return careAreaRank(a) - careAreaRank(b) || String(a).localeCompare(String(b), 'zh-Hant');
-      });
+      return values.slice().sort((a, b) =>
+        careAreaRank(a) - careAreaRank(b) ||
+        String(a).localeCompare(String(b), 'zh-Hant')
+      );
     }
 
     function showNotice(message, isError) {
