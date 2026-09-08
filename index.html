@@ -1098,15 +1098,12 @@
 
   <script>
     const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw-TQT8iaQnfvRUmrg3LiEHdEeliwY4kpkENF2Nw2iZl9C9wQSSpW2JM73ige87DmFj/exec';
-    const MANAGER_PASSWORD = '76236250';
-
     const FALLBACK_SPECIALTIES = ['兒青', '大學', '中學', '兒童', '青職', '無'];
     const FALLBACK_CARE_AREAS = ['東', '西', '中', '南A', '南B', '北', '無', '屏'];
     const FALLBACK_SEASONS = ['春季', '秋季'];
     const FALLBACK_GENDERS = ['弟兄', '姊妹'];
 
-    const INITIAL_CACHE_KEY = 'exercisebook_initial_data_v7_split';
-    const WEEK_CACHE_PREFIX = 'exercisebook_week_data_v7_split_';
+    const WEEK_CACHE_PREFIX = 'exercisebook_week_data_v8_clean_';
     const CACHE_MAX_AGE_MS = 6 * 60 * 60 * 1000;
 
     const TABLE_COLUMNS = [
@@ -1124,6 +1121,7 @@
 
     let managerPassword = '';
     let settingPassword = '';
+    let reportRequestSerial = 0;
 
     let state = {
       year: '',
@@ -1210,6 +1208,7 @@
 
     async function init() {
       showLoading(false);
+      cleanupLegacyLocalCaches();
 
       applyClientShellState();
       renderReportOnly();
@@ -1220,7 +1219,7 @@
       renderCheckerDatalist();
 
       const currentWeekStart = state.week ? toInputDateValue(state.week.start) : '';
-      const cached = loadWeekDataCache(currentWeekStart) || loadInitialDataCache();
+      const cached = loadWeekDataCache(currentWeekStart);
 
       if (cached) {
         applyServerState(cached);
@@ -1248,6 +1247,7 @@
 
     async function loadReportData(weekStartValue, options = {}) {
       const silent = !!options.silent;
+      const requestId = ++reportRequestSerial;
 
       if (!silent) renderMembersLoading('名單載入中');
 
@@ -1256,10 +1256,11 @@
         const res = await api('getReportData', { weekStart: weekStartValue || '' });
         const endedAt = performance.now();
 
+        if (requestId !== reportRequestSerial) return;
+
         console.log('getReportData total ms:', Math.round(endedAt - startedAt));
         console.log('backend elapsedMs:', res.elapsedMs || 'no elapsedMs');
 
-        saveInitialDataCache(res);
         if (res && res.week && res.week.start) {
           saveWeekDataCache(toInputDateValue(res.week.start), res);
         }
@@ -1269,20 +1270,14 @@
         renderNewMemberRows();
         renderCheckerDatalist();
       } catch (err) {
+        if (requestId !== reportRequestSerial) return;
+
         showNotice(err.message || '載入失敗', true);
 
         if (!state.members.length) {
           renderMembersLoading('資料載入失敗，請重新整理頁面');
         }
       }
-    }
-
-    function saveInitialDataCache(data) {
-      saveLocalCache(INITIAL_CACHE_KEY, data);
-    }
-
-    function loadInitialDataCache() {
-      return loadLocalCache(INITIAL_CACHE_KEY);
     }
 
     function makeWeekCacheKey(weekStartValue) {
@@ -1325,11 +1320,26 @@
       }
     }
 
-    function clearReportLocalCaches() {
+    function cleanupLegacyLocalCaches() {
       try {
-        localStorage.removeItem(INITIAL_CACHE_KEY);
+        localStorage.removeItem('exercisebook_initial_data_v7_split');
 
         const removeKeys = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.indexOf('exercisebook_week_data_v7_split_') === 0) {
+            removeKeys.push(key);
+          }
+        }
+
+        removeKeys.forEach(key => localStorage.removeItem(key));
+      } catch (err) {}
+    }
+
+    function clearReportLocalCaches() {
+      try {
+        const removeKeys = [];
+
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
           if (key && key.indexOf(WEEK_CACHE_PREFIX) === 0) removeKeys.push(key);
@@ -1771,26 +1781,28 @@
 
     async function openMemberManager() {
       const input = prompt('請輸入成員清單密碼');
+      if (input === null) return;
 
-      if (input !== MANAGER_PASSWORD) {
-        showNotice('密碼錯誤', true);
+      const password = String(input || '').trim();
+      if (!password) {
+        showNotice('請輸入密碼', true);
         return;
       }
-
-      managerPassword = input;
-      document.getElementById('memberModalCover').style.display = 'flex';
-      document.getElementById('memberManagerList').innerHTML = '<div class="empty">成員資料載入中...</div>';
 
       showLoading(true);
 
       try {
-        const res = await api('getMemberManagerData', { password: managerPassword });
+        const res = await api('getMemberManagerData', { password: password });
+
+        managerPassword = password;
+        document.getElementById('memberModalCover').style.display = 'flex';
+        document.getElementById('memberManagerList').innerHTML = '<div class="empty">成員資料載入中...</div>';
+
         applyServerState(res);
         renderAll();
         renderMemberManagerList();
       } catch (err) {
-        document.getElementById('memberManagerList').innerHTML =
-          '<div class="empty">' + escapeHtml(err.message || '成員清單載入失敗') + '</div>';
+        managerPassword = '';
         showNotice(err.message || '成員清單載入失敗', true);
       } finally {
         showLoading(false);
@@ -1798,31 +1810,35 @@
     }
 
     function closeMemberModal() {
+      managerPassword = '';
       document.getElementById('memberModalCover').style.display = 'none';
     }
 
     async function openSettingManager() {
       const input = prompt('請輸入設定密碼');
+      if (input === null) return;
 
-      if (input !== MANAGER_PASSWORD) {
-        showNotice('密碼錯誤', true);
+      const password = String(input || '').trim();
+      if (!password) {
+        showNotice('請輸入密碼', true);
         return;
       }
-
-      settingPassword = input;
-      document.getElementById('settingModalCover').style.display = 'flex';
-      document.getElementById('settingList').innerHTML = '<div class="empty">設定資料載入中...</div>';
 
       showLoading(true);
 
       try {
-        const res = await api('getPeriodSettings', { password: settingPassword });
+        const res = await api('getPeriodSettings', { password: password });
+
+        settingPassword = password;
         state.periodSettings = Array.isArray(res.settings) ? res.settings : [];
+
+        document.getElementById('settingModalCover').style.display = 'flex';
+        document.getElementById('settingList').innerHTML = '<div class="empty">設定資料載入中...</div>';
+
         renderSettingControls(res.years || []);
         renderPeriodSettings();
       } catch (err) {
-        document.getElementById('settingList').innerHTML =
-          '<div class="empty">' + escapeHtml(err.message || '設定載入失敗') + '</div>';
+        settingPassword = '';
         showNotice(err.message || '設定載入失敗', true);
       } finally {
         showLoading(false);
@@ -1830,6 +1846,7 @@
     }
 
     function closeSettingModal() {
+      settingPassword = '';
       document.getElementById('settingModalCover').style.display = 'none';
     }
 
@@ -1977,7 +1994,7 @@
       if (!box) return;
 
       if (!state.periodSettings.length) {
-        box.innerHTML = '<div class="empty">尚未載入設定</div>';
+        box.innerHTML = '<div class="empty">目前尚未建立統計期間設定</div>';
         return;
       }
 
